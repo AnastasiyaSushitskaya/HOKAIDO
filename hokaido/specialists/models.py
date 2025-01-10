@@ -3,6 +3,7 @@ from django.db import models
 from django import forms
 import pandas as pd
 
+
 class AccountManager(BaseUserManager):
     def create_user(self, username=None, email=None, password=None, **extra_fields):
         if not email:
@@ -13,7 +14,7 @@ class AccountManager(BaseUserManager):
             username = ""
 
         user = self.model(username=username, email=email, **extra_fields)
-        user.set_password(password)
+        user.set_password(password)  # Хэширование пароля
         user.save(using=self._db)
         return user
 
@@ -21,7 +22,14 @@ class AccountManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
+        # Убедитесь, что все обязательные поля установлены
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
+
         return self.create_user(username, email, password, **extra_fields)
+
 
 class Account(AbstractUser):
     last_name = models.CharField(max_length=150, verbose_name="Фамилия")
@@ -65,8 +73,6 @@ class Account(AbstractUser):
     def __str__(self):
         full_name = f"{self.last_name} {self.first_name} {self.middle_name or ''}".strip()
         return full_name
-
-
 
 
 class Position(models.Model):
@@ -151,6 +157,7 @@ class ExcelFile(models.Model):
         file_path = self.file.path
         df = pd.read_excel(file_path)
         return df
+
 
 class ExcelDataForm(forms.Form):
     data = forms.CharField(widget=forms.Textarea)

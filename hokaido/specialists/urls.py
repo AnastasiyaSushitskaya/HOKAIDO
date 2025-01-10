@@ -1,8 +1,9 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    path("", views.login_view),
-    path('exel/<int:file_id>/', views.edit_excel, name='edit_excel'),  # URL с передачей file_id
+    path('main/', views.index, name='index'),  # Главная страница
+    path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
 
 ]
