@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import ExcelFile, Account, Position, TypeOfDish, Checklist, PhotoGallery, Menu
+from .models import ExcelFile, Account, Position, TypeOfDish, Checklist, PhotoGallery, Menu, ExcelDataForm
 import pandas as pd
 
 admin.site.site_header = "Администрирование HOKAIDO"  # Заголовок панели администратора
@@ -84,13 +84,27 @@ class ExcelFileAdmin(admin.ModelAdmin):
     list_display = ('file', 'uploaded_at', 'display_excel_content')
 
     def display_excel_content(self, obj):
-        file_path = obj.file.path
-        df = pd.read_excel(file_path)
-        html_content = df.to_html(classes='table table-striped')
-        return html_content
-
+        return f'<a href="{obj.file.url}">Download</a>'
     display_excel_content.allow_tags = True
-    display_excel_content.short_description = 'Excel Content'
+    display_excel_content.short_description = 'Download'
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        # Получаем объект ExcelFile
+        excel_file = self.get_object(request, object_id)
+        if request.method == 'POST':
+            form = ExcelDataForm(request.POST, excel_file=excel_file)
+            if form.is_valid():
+                # Здесь можно обработать данные и сохранить их
+                # Например, перезапись файла с новыми данными
+                pass
+        else:
+            form = ExcelDataForm(excel_file=excel_file)
+
+        context = {
+            'form': form,
+            'excel_file': excel_file,
+        }
+        return super().change_view(request, object_id, form_url, extra_context=context)
 
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Position, PositionAdmin)
@@ -98,5 +112,4 @@ admin.site.register(TypeOfDish, TypeOfDishAdmin)
 admin.site.register(Checklist, ChecklistAdmin)
 admin.site.register(PhotoGallery, PhotoGalleryAdmin)
 admin.site.register(Menu, MenuAdmin)
-
 admin.site.register(ExcelFile, ExcelFileAdmin)

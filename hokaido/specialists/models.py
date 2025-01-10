@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager, Group, Permission
 from django.db import models
+from django import forms
+import pandas as pd
 
 class AccountManager(BaseUserManager):
     def create_user(self, username=None, email=None, password=None, **extra_fields):
@@ -143,3 +145,21 @@ class ExcelFile(models.Model):
 
     def __str__(self):
         return self.file.name
+
+    def get_excel_data(self):
+        # Чтение данных из Excel файла
+        file_path = self.file.path
+        df = pd.read_excel(file_path)
+        return df
+
+class ExcelDataForm(forms.Form):
+    data = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        excel_file = kwargs.pop('excel_file', None)
+        super().__init__(*args, **kwargs)
+
+        if excel_file:
+            df = excel_file.get_excel_data()
+            # Преобразование данных DataFrame в строку для текстового поля
+            self.fields['data'].initial = df.to_string(index=False)
