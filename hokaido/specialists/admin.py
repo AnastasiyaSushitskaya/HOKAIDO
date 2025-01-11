@@ -41,6 +41,12 @@ class AccountAdmin(admin.ModelAdmin):
 
     readonly_fields = ('last_login', 'date_joined')  # Поля для чтения
 
+    # Переопределяем метод сохранения для хэширования паролей
+    def save_model(self, request, obj, form, change):
+        if form.cleaned_data.get('password') and not obj.pk:
+            obj.set_password(form.cleaned_data['password'])
+        super().save_model(request, obj, form, change)
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.select_related('position')  # Оптимизация запросов

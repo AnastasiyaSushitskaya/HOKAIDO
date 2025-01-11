@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %}</title>
+    {% load static %}
+    <link rel="icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href='{% static "css/style.css" %}'>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <!-- Логотип -->
+            <div class="logo">
+                <a href="/main"><img src="{% static 'images/logo.png' %}" alt="Логотип"></a>
+            </div>
+
+            <!-- Навигация -->
+            <nav>
+                <a href="/services">График</a>
+                <!-- <div class="burger-menu">
+
+                    <a href="#" class="burger-toggle">О нас<span class="arrow">&#9660;</span></a>
+                    <div class="burger-links">
+                        <a href="/about">О нашей клинике</a>
+                        <a href="/addresses">Адреса</a>
+                        <a href="/contacts">Контакты</a>
+                        <a href="/doctors">Наши специалисты</a>
+                        <a href="/news">Новости</a>
+                        <a href="/reviews">Отзывы</a>
+                    </div>
+                </div> -->
+                <a href="/services">Меню</a>
+                <a href="/doctors">Мини-игры</a>
+                <a href="/news">Сотрудники</a>
+            </nav>
+
+
+            <!-- Иконка профиля -->
+            <div class="profile-icon">
+                <a href="/personal">
+                    <img src="{% static 'images/profile-icon.png' %}" alt="Профиль">
+                </a>
+                <span><a href="/personal" class="profile-label">Аккаунт</a></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1>{% block header %}{% endblock header %}</h1>
+        <div>{% block content%}{% endblock content %}</div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <!-- Контакты -->
+            <div class="footer-contacts">
+                <p>Контакты:</p>
+                <p>+375 XXX XXX XX</p>
+                <p>+375 XXX XXX XX</p>
+            </div>
+
+            <!-- Социальные сети -->
+            <div class="footer-socials">
+                <a href="https://web.telegram.org/a/" class="social-icon">
+                    <img src="{% static 'images/telegram-icon.png' %}" alt="Telegram">
+                </a>
+                <a href="https://www.instagram.com/accounts/login/" class="social-icon">
+                    <img src="{% static 'images/inst-icon.png' %}" alt="Inst">
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const burgerToggle = document.querySelector(".burger-toggle");
+        const burgerMenu = document.querySelector(".burger-menu");
+        const arrow = document.querySelector(".burger-toggle .arrow");
+
+        burgerToggle.addEventListener("click", function (event) {
+            event.preventDefault(); // Предотвращаем переход по ссылке
+            burgerMenu.classList.toggle("active"); // Переключаем класс активности меню
+            arrow.classList.toggle("rotated"); // Переключаем класс для стрелки
+        });
+    });
+</script>
+
+</html>

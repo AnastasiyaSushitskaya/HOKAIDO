@@ -1,0 +1,229 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+header {
+  background-color: #FFAA00;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Логотип */
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.logo img {
+  height: 140px;
+}
+
+
+/* Навигация */
+nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  vertical-align: middle;
+}
+
+nav a:hover {
+  color: #D2FFFB;
+  background-color: #1240AB;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+/* Бургер-меню
+.burger-menu {
+  position: relative;
+}
+
+.burger-toggle {
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.burger-toggle:hover {
+  color: #D2FFFB;
+  background-color: #5EAEA7;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+} */
+
+/* Скрыть подпункты по умолчанию */
+/* .burger-links {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 10px;
+  width: 200px;
+  z-index: 1;
+}
+
+.burger-links a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.burger-links a:hover {
+  background-color: #5eaea6;
+  color: #D2FFFB;
+} */
+
+/* Показываем подпункты при активации */
+/* .burger-menu.active .burger-links {
+  display: block;
+} */
+
+/* Стрелка */
+/* .arrow {
+  display: inline-block;
+  font-size: 12px;
+  margin-left: 8px;
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
+} */
+
+/* Поворот стрелки вверх */
+/* .burger-menu.active .arrow {
+  transform: rotate(180deg);
+}
+
+.arrow.rotated {
+  transform: rotate(180deg);
+} */
+
+/* Иконка профиля */
+.profile-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.profile-icon img {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: #d9f5eb;
+  cursor: pointer;
+}
+
+/* Подпись "Личный кабинет" */
+.profile-icon .profile-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: color 0.3s, background-color 0.3s;
+  text-align: center;
+}
+
+/* Эффект наведения для подписи */
+.profile-icon .profile-label:hover {
+  color: #D2FFFB;
+  background-color: #1240AB;
+  padding: 5px 10px;
+}
+
+
+/* Футер */
+footer {
+  background-color: #FFAA00;
+  padding: 20px 0;
+  border-top: 1px solid #C4E6DE;
+  font-family: Arial, sans-serif;
+}
+
+/* Контейнер футера */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Блок контактов */
+.footer-contacts,
+.footer-addresses {
+  color: #333;
+  font-size: 18px;
+}
+
+.footer-contacts p,
+.footer-addresses p {
+  margin: 5px 0;
+}
+
+/* Блок социальных сетей */
+.footer-socials {
+  display: flex;
+  gap: 15px;
+}
+
+.footer-socials .social-icon img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.footer-socials .social-icon img:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
