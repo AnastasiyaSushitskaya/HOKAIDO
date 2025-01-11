@@ -1,0 +1,65 @@
+body {
+    background-color: #1C1C1C; /* Фон страницы */
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #FFD700; /* Золотой цвет */
+    border-radius: 10px;
+    background-color: #2E2E2E; /* Темно-серый */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Растянуть элементы на всю ширину */
+}
+
+.login-container h2 {
+    text-align: center;
+    color: #FFD700; /* Золотой цвет */
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.login-input {
+    width: 100%;
+    padding: 15px; /* Увеличен отступ для высоты полей */
+    margin: 10px 0;
+    border: 1px solid #A0A0A0; /* Серый */
+    border-radius: 5px;
+    font-size: 16px;
+    color: #FFFFFF; /* Белый */
+    background-color: #3C3C3C; /* Темно-серый */
+    box-sizing: border-box; /* Учет границ и отступов в ширине */
+}
+
+.login-input:focus,
+.login-input:not(:placeholder-shown) {
+    color: #FFD700; /* Золотой цвет */
+    border-color: #FFD700; /* Золотой цвет */
+}
+
+.login-button {
+    width: 100%;
+    padding: 15px; /* Увеличен отступ для высоты кнопки */
+    background-color: #1240AB; /* Бирюзовый */
+    color: #FFCE00;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 10px; /* Отступ сверху для кнопки */
+}
+
+.login-button:hover {
+    background-color: #06266F; /* Более темный бирюзовый */
+}
+
+.error {
+    color: #FF4500; /* Красный цвет для ошибок */
+    margin: 10px 0;
+    text-align: center; /* Центрирование текста ошибки */
+}
