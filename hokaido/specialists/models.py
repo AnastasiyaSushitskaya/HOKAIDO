@@ -122,8 +122,8 @@ class PhotoGallery(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name="Описание")
 
     class Meta:
-        verbose_name = "Новость"
-        verbose_name_plural = "Новости"
+        verbose_name = "Фотография"
+        verbose_name_plural = "Фотографии"
         ordering = ['-date']
 
     def __str__(self):
