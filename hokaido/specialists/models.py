@@ -138,7 +138,7 @@ class Menu(models.Model):
         related_name="menus"
     )
     name = models.CharField(max_length=200, unique=True, verbose_name="Название")
-    photo = models.ImageField(upload_to='menu/photos/', verbose_name="Фото блюда")
+    photo = models.ImageField(upload_to='menu/photos/', blank=True, null=True, verbose_name="Фото блюда")
     compound = models.TextField(verbose_name="Состав")
 
     class Meta:
