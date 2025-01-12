@@ -8,6 +8,30 @@ def login_view(request):
     return render(request, "login.html")
 
 
+def schedule_view(request):
+    return render(request, "schedule.html")
+
+
+def menu_view(request):
+    return render(request, "menu.html")
+
+
+def mini_games_view(request):
+    return render(request, "mini-games.html")
+
+
+def specialests_view(request):
+    return render(request, "specialests.html")
+
+
+def clue_view(request):
+    return render(request, "clue.html")
+
+
+def personal_view(request):
+    return render(request, "personal.html")
+
+
 def index(request):
     return render(request, "index.html")
 
