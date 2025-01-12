@@ -36,6 +36,7 @@ class Account(AbstractUser):
     first_name = models.CharField(max_length=150, verbose_name="Имя")
     middle_name = models.CharField(max_length=150, blank=True, null=True, verbose_name="Отчество")
     date_of_birth = models.DateField(blank=True, null=True, verbose_name="Дата рождения")
+    photo = photo = models.ImageField(upload_to='фссўгтеы/photos/',blank=True, null=True, verbose_name="Фото")
     position = models.ForeignKey(
         'Position',
         on_delete=models.CASCADE,
