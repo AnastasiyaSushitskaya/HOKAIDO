@@ -141,6 +141,10 @@ class Menu(models.Model):
     photo = models.ImageField(upload_to='menu/photos/', verbose_name="Фото блюда")
     compound = models.TextField(verbose_name="Состав")
 
+    class Meta:
+        verbose_name = "Меню"
+        verbose_name_plural = "Меню"
+
     def __str__(self):
         return self.name
 
