@@ -20,8 +20,8 @@ def mini_games_view(request):
     return render(request, "mini-games.html")
 
 
-def specialests_view(request):
-    return render(request, "specialests.html")
+def specialists_view(request):
+    return render(request, "specialists.html")
 
 
 def clue_view(request):
