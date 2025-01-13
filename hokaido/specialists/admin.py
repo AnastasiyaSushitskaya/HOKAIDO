@@ -21,7 +21,7 @@ class AccountAdmin(admin.ModelAdmin):
         (None, {'fields': ('username', 'password')}),
         ('Личная информация', {
             'fields': (
-            'last_name', 'first_name', 'middle_name', 'date_of_birth', 'position', 'phone', 'email', 'additional_info')
+            'last_name', 'first_name', 'middle_name', 'photo','date_of_birth', 'position', 'phone', 'email', 'additional_info')
         }),
         ('Разрешения', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')
