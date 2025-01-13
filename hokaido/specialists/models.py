@@ -28,6 +28,8 @@ class AccountManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError("Superuser must have is_superuser=True.")
 
+        if 'first_name' not in extra_fields or 'last_name' not in extra_fields:
+            raise ValueError("Superuser must have first_name and last_name.")
         return self.create_user(username, email, password, **extra_fields)
 
 
@@ -36,7 +38,7 @@ class Account(AbstractUser):
     first_name = models.CharField(max_length=150, verbose_name="Имя")
     middle_name = models.CharField(max_length=150, blank=True, null=True, verbose_name="Отчество")
     date_of_birth = models.DateField(blank=True, null=True, verbose_name="Дата рождения")
-    photo = photo = models.ImageField(upload_to='фссўгтеы/photos/',blank=True, null=True, verbose_name="Фото")
+    photo = models.ImageField(upload_to='accounts/photos/',blank=True, null=True, verbose_name="Фото")
     position = models.ForeignKey(
         'Position',
         on_delete=models.CASCADE,
