@@ -1,5 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -12,4 +14,4 @@ urlpatterns = [
     path('clue/', views.clue_view, name='clue'),
     path('personal/', views.personal_view, name='personal'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

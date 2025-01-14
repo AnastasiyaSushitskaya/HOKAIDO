@@ -3,9 +3,62 @@
 
 {% block title %}HOKAIDO{% endblock title %}
 
+{% block links %}
+<script src="{% static 'js/index.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock links %}
 
 {% block content %}
-<h1>Добро пожаловать!</h1>
-<p>Вы успешно вошли в систему.</p>
+
+<div class="container">
+    <!-- Герой секция -->
+    <div class="hero-container">
+        <div class="hero-image">
+            <img src="{% static 'images/hokaido.jpg' %}" alt="Фото заведения">
+        </div>
+        <div class="hero-text">
+            <h1>HOKAIDO</h1>
+            <p>Что-то</p>
+        </div>
+    </div>
+
+    <h2>Случайные фотографии</h2>
+    <div class="photo-gallery">
+        {% for photo in random_photos %}
+        <div class="photo-item">
+            <img src="{{ photo.photo.url }}" alt="{{ photo.description }}" class="photo-image">
+            <p>Дата: {{ photo.date }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    <div class="divider"></div> <!--Разделительная линия -->
+    <br>
+
+    <div class="carousel-container">
+        <button id="prev" class="button">&#8249;</button>
+        <div class="carousel">
+            <div class="carousel-inner">
+                {% for specialist in specialists %}
+                <div class="item">
+                    {% if specialist.photo %}
+                    <img src="{{ specialist.photo.url }}" alt="{{ specialist }}" class="specialist-photo">
+                    {% endif %}
+                    <div class="specialist-name">{{ specialist }}</div>
+                    {% if specialist.position %}
+                    <div class="specialist-position">{{ specialist.position }}</div>
+                    {% endif %}
+                    <div class="additional_info">
+                        {{ specialist.additional_info}}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button id="next" class="button">&#8250;</button>
+    </div>
+    <br>
+</div>
+
 
 {% endblock content %}

@@ -1,5 +1,7 @@
+from tarfile import data_filter
+import random
 from django.shortcuts import render, redirect
-from .models import ExcelFile
+from .models import ExcelFile, Account, PhotoGallery
 import pandas as pd
 
 
@@ -33,7 +35,13 @@ def personal_view(request):
 
 
 def index(request):
-    return render(request, "index.html")
+    specialists = Account.objects.filter(position__isnull=False)  # Фильтруем по наличию позиции, если нужно
+    # Получаем все фотографии
+    photogallery = PhotoGallery.objects.all()
+
+    # Выбираем 3 случайные фотографии
+    random_photos = random.sample(list(photogallery), 3) if len(photogallery) >= 3 else photogallery
+    return render(request, 'index.html', {'specialists': specialists, 'random_photos': random_photos})
 
 
 def edit_excel(request, file_id):

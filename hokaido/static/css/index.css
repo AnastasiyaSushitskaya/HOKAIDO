@@ -1,0 +1,156 @@
+body {
+    background-color: #FFE473;
+}
+
+.hero-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    padding: 40px 20px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #FFE473;
+}
+
+.hero-text {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.hero-text h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.hero-text p {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+
+
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel {
+    max-width: 900px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.item {
+    min-width: 300px;
+    box-sizing: border-box;
+    padding: 20px;
+    background: #ffffff;
+    border-right: 1px solid #ccc;
+    text-align: center;
+}
+
+.button {
+    background: transparent;
+    border: none;
+    font-size: 36px;
+    cursor: pointer;
+    color: #007BFF;
+    padding: 0 20px;
+    transition: transform 0.2s;
+}
+
+.button:hover {
+    transform: scale(1.2);
+    color: #0056b3;
+}
+
+.button:focus {
+    outline: none;
+}
+
+.specialist-photo {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.specialist-name {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.specialist-position {
+    font-size: 1em;
+    color: gray;
+}
+
+/* разграничитель */
+.divider {
+    max-width: 1200px;
+    height: 5px;
+    background-color: #0056b3;
+    margin: 40px auto;
+}
+
+/* Стили для заголовка */
+h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Контейнер для галереи */
+.photo-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Стили для отдельных фотографий */
+.photo-item {
+    width: 30%;
+    max-width: 300px;
+    text-align: center;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.photo-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Стили для изображения */
+.photo-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Описание под изображением */
+.photo-item p {
+    font-size: 1rem;
+    color: #333;
+    padding-top: 10px;
+    margin: 0;
+}
