@@ -284,3 +284,11 @@ footer {
   width: 100%;
   /* Занимает всю ширину контейнера */
 }
+
+/* разграничитель */
+.divider {
+  max-width: 1200px;
+  height: 5px;
+  background-color: #0056b3;
+  margin: 40px auto;
+}

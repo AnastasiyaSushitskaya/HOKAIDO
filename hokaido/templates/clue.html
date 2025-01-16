@@ -3,8 +3,8 @@
 
 {% block title %}Подсказки | HOKAIDO{% endblock title %}
 
-
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/clue.css' %}">
 
 <div class="container">
     <div class="breadcrumb-container">
@@ -12,8 +12,17 @@
             <a href="/main"><b>Главная</b></a> &gt; <span><b>Подсказки</b></span>
         </nav>
     </div>
-    <h1>Тут будет чек-лист</h1>
-</div>
 
+    {% if checklists %}
+        {% for checklist in checklists %}
+            <div class="checklist-item">
+                <h1>{{ checklist.position.title }}</h1>
+                <p>{{ checklist.description|linebreaksbr }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Чек-лист для вашей должности не найден.</p>
+    {% endif %}
+</div>
 
 {% endblock content %}

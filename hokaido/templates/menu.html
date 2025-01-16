@@ -3,15 +3,49 @@
 
 {% block title %}Меню | HOKAIDO{% endblock title %}
 
-
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/menu.css' %}">
+
 <div class="container">
     <div class="breadcrumb-container">
         <nav class="breadcrumb">
             <a href="/main"><b>Главная</b></a> &gt; <span><b>Меню</b></span>
         </nav>
     </div>
-<h1>Тут будет меню</h1>
+
+    <h1>Наше меню</h1>
+
+    {% for type in types_of_dish %}
+    <div class="type-of-dish">
+        <h2>
+            <span class="toggle-button" onclick="toggleMenu({{ forloop.counter0 }})" id="toggle-{{ forloop.counter0 }}">&#9654;</span>
+            {{ type.name }}
+        </h2>
+        <p class="description">{{ type.description }}</p>
+
+        <div class="menu-items collapsed" id="menu-items-{{ forloop.counter0 }}">
+            {% for item in type.menus.all %}
+            <div class="menu-item">
+                {% if item.photo %}
+                <img src="{{ item.photo.url }}" alt="{{ item.name }}" class="menu-photo">
+                {% endif %}
+                <div class="menu-info">
+                    <h3>{{ item.name }}</h3>
+                    <p><strong>Состав:</strong> {{ item.compound }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
+<script>
+function toggleMenu(index) {
+    const menuItems = document.getElementById(`menu-items-${index}`);
+    const toggleButton = document.getElementById(`toggle-${index}`);
+    menuItems.classList.toggle("collapsed");
+    toggleButton.classList.toggle("rotated");
+}
+</script>
 {% endblock content %}

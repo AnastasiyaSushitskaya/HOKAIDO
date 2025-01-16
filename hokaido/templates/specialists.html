@@ -3,14 +3,39 @@
 
 {% block title %}Сотрудники | HOKAIDO{% endblock title %}
 
-
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/specialists.css' %}">
+
 <div class="container">
     <div class="breadcrumb-container">
         <nav class="breadcrumb">
             <a href="/main"><b>Главная</b></a> &gt; <span><b>Сотрудники</b></span>
         </nav>
     </div>
-    <h1>Тут будут наши сотрудники</h1>
+
+    <h1>Наши сотрудники</h1>
+
+    {% for position in positions %}
+    <div class="type-of-dish">
+        <h2>{{ position.title }}</h2>
+        <p class="description">{{ position.description }}</p>
+
+        <div class="menu-items">
+            {% for specialist in position.specialists.all %}
+            <div class="menu-item">
+                {% if specialist.photo %}
+                <img src="{{ specialist.photo.url }}" alt="{{ specialist }}" class="menu-photo">
+                {% endif %}
+                <div class="menu-info">
+                    <h3>{{ specialist }}</h3>
+                    <p><strong>Телефон:</strong> {{ specialist.phone }}</p>
+                    <p><strong>Почта:</strong> {{ specialist.email }}</p>
+                    <p><strong>Дополнительная информация:</strong> {{ specialist.additional_info }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock content %}

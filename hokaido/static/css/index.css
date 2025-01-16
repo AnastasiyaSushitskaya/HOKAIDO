@@ -99,14 +99,6 @@ body {
     color: gray;
 }
 
-/* разграничитель */
-.divider {
-    max-width: 1200px;
-    height: 5px;
-    background-color: #0056b3;
-    margin: 40px auto;
-}
-
 /* Стили для заголовка */
 h2 {
     font-size: 2rem;

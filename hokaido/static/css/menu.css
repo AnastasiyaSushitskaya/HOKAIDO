@@ -1,0 +1,94 @@
+body {
+    background-color: #FFE473;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.type-of-dish {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.type-of-dish h2 {
+    color: #003268;
+    margin-bottom: 10px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.description {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.menu-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 10px 0;
+    transition: max-height 0.3s ease-out;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.menu-items.collapsed {
+    max-height: 0;
+}
+
+.menu-items:not(.collapsed) {
+    max-height: 1000px; /* Достаточно большое значение для развёрнутого состояния */
+    transition: max-height 0.5s ease-in;
+}
+
+.toggle-button {
+    cursor: pointer;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+    font-size: 20px;
+}
+
+.toggle-button.rotated {
+    transform: rotate(90deg);
+}
+
+.menu-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 48%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.menu-photo {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+}
+
+.menu-info {
+    padding: 15px;
+}
+
+.menu-info h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+}
+
+.menu-info p {
+    margin: 0;
+    color: #555;
+}

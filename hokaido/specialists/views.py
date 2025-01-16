@@ -1,7 +1,8 @@
 from tarfile import data_filter
 import random
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import ExcelFile, Account, PhotoGallery
+from .models import ExcelFile, Account, PhotoGallery, TypeOfDish, Position, Checklist
 import pandas as pd
 
 
@@ -15,7 +16,8 @@ def schedule_view(request):
 
 
 def menu_view(request):
-    return render(request, "menu.html")
+    types_of_dish = TypeOfDish.objects.prefetch_related('menus').all()
+    return render(request, 'menu.html', {'types_of_dish': types_of_dish})
 
 
 def mini_games_view(request):
@@ -23,12 +25,15 @@ def mini_games_view(request):
 
 
 def specialists_view(request):
-    return render(request, "specialists.html")
+    positions = Position.objects.all()
+    return render(request, 'specialists.html', {'positions': positions})
 
 
 def clue_view(request):
-    return render(request, "clue.html")
+    user_position = request.user.position
+    checklists = Checklist.objects.filter(position=user_position)
 
+    return render(request, 'clue.html', {'checklists': checklists})
 
 def personal_view(request):
     return render(request, "personal.html")
