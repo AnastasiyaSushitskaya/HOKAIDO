@@ -46,7 +46,7 @@ h1 {
 }
 
 .menu-items:not(.collapsed) {
-    max-height: 1000px; /* Достаточно большое значение для развёрнутого состояния */
+    max-height: none; /* Достаточно большое значение для развёрнутого состояния */
     transition: max-height 0.5s ease-in;
 }
 
