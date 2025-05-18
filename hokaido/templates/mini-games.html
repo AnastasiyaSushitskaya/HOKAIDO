@@ -3,15 +3,86 @@
 
 {% block title %}Мини-игры | HOKAIDO{% endblock title %}
 
+{% block links %}
+<link rel="stylesheet" href='{% static "css/games.css" %}'>
+{% endblock links %}
+
+{% block scripts %}
+<script src='{% static "js/mini-games.js" %}'></script>
+{% endblock scripts %}
+
 
 {% block content %}
-
 <div class="container">
     <div class="breadcrumb-container">
         <nav class="breadcrumb">
             <a href="/main"><b>Главная</b></a> &gt; <span><b>Мини-игры</b></span>
         </nav>
     </div>
-    <h1>Тут будут мини-игры</h1>
+    <h2>Мини-игры</h2>
+
+    <div class="games-container">
+        <!-- Игра 1 -->
+        <div class="game-card">
+            <a href="#" class="game-link">
+                <div class="game-image">
+                    <img src="{% static 'images/game-placeholder.png' %}" alt="Игра">
+                </div>
+                <h3>Игра "Собери напиток"</h3>
+            </a>
+        </div>
+
+        <!-- Игра 2 -->
+        <div class="game-card">
+            <a href="#" class="game-link">
+                <div class="game-image">
+                    <img src="{% static 'images/game-placeholder.png' %}" alt="Игра">
+                </div>
+                <h3>Игра "ля ля ля"</h3>
+            </a>
+        </div>
+
+        <!-- Игра 3 -->
+        <div class="game-card">
+            <a href="#" class="game-link">
+                <div class="game-image">
+                    <img src="{% static 'images/game-placeholder.png' %}" alt="Игра">
+                </div>
+                <h3>Игра "тополя"</h3>
+            </a>
+        </div>
+    </div>
+
+    <!-- Секция тестов -->
+    <div class="tests-section">
+        <h2>Тесты и викторины</h2>
+
+        {% for dish_type in dish_types %}
+        <div class="test-category">
+            <div class="test-category-header">
+                <h3>{{ dish_type.name }}</h3>
+                <div class="accordion-icon">+</div>
+            </div>
+            <div class="test-category-content">
+                <div class="test-types-container">
+                    <a href="{% url 'guess_dish_test' dish_type.id %}" class="test-type-card">
+                        <h4>Угадай блюдо</h4>
+                        <p>Определите блюдо по изображению</p>
+                    </a>
+                    <a href="{% url 'missing_ingredient_test' dish_type.id %}" class="test-type-card">
+                        <h4>Недостающий ингредиент</h4>
+                        <p>Что забыли добавить в блюдо?</p>
+                    </a>
+                    <a href="{% url 'dish_composition_test' dish_type.id %}" class="test-type-card">
+                        <h4>Состав блюда</h4>
+                        <p>Выберите правильные ингредиенты</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
+
+
 {% endblock content %}

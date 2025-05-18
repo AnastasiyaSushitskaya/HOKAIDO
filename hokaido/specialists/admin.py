@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import ExcelFile, Account, Position, TypeOfDish, Checklist, PhotoGallery, Menu, ExcelDataForm
+from .models import ExcelFile, Account, Position, TypeOfDish, Checklist, PhotoGallery, Menu, ExcelDataForm, TestResult
 import pandas as pd
 
 admin.site.site_header = "Администрирование HOKAIDO"  # Заголовок панели администратора
@@ -21,7 +21,8 @@ class AccountAdmin(admin.ModelAdmin):
         (None, {'fields': ('username', 'password')}),
         ('Личная информация', {
             'fields': (
-            'last_name', 'first_name', 'middle_name', 'photo','date_of_birth', 'position', 'phone', 'email', 'additional_info')
+                'last_name', 'first_name', 'middle_name', 'photo', 'date_of_birth', 'position', 'phone', 'email',
+                'additional_info')
         }),
         ('Разрешения', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')
@@ -62,6 +63,7 @@ class PositionAdmin(admin.ModelAdmin):
     search_fields = ("title", "description")
     fields = ("title", "description")
 
+
 class TypeOfDishAdmin(admin.ModelAdmin):
     list_display = ("name", "description")
     search_fields = ("name", "description")
@@ -74,23 +76,34 @@ class ChecklistAdmin(admin.ModelAdmin):
     list_filter = ('position',)
     fields = ("position", "description")
 
+
 class PhotoGalleryAdmin(admin.ModelAdmin):
-    list_display = ("date", "photo","description")
+    list_display = ("date", "photo", "description")
     search_fields = ("date", "description")
     list_filter = ('date',)
     fields = ("date", "photo", 'description')
 
+
 class MenuAdmin(admin.ModelAdmin):
-    list_display = ("type_of_dish", 'name',"photo", "compound")
+    list_display = ("type_of_dish", 'name', "photo", "compound")
     search_fields = ("type_of_dish", "name")
     list_filter = ('type_of_dish',)
-    fields = ("type_of_dish", 'name',"photo", "compound")
+    fields = ("type_of_dish", 'name', "photo", "compound")
+
+
+class TestResultAdmin(admin.ModelAdmin):
+    list_display = ("user", "test_type", "dish_type", "correct", "total", "date_completed")
+    list_filter = ("test_type", "dish_type", "date_completed")
+    search_fields = ("user__username", "dish_type__name")
+    fields = ("user", "test_type", "dish_type", "correct", "total", "date_completed")
+    readonly_fields = ("date_completed",)
 
 class ExcelFileAdmin(admin.ModelAdmin):
     list_display = ('file', 'uploaded_at', 'display_excel_content')
 
     def display_excel_content(self, obj):
         return f'<a href="{obj.file.url}">Download</a>'
+
     display_excel_content.allow_tags = True
     display_excel_content.short_description = 'Download'
 
@@ -112,6 +125,7 @@ class ExcelFileAdmin(admin.ModelAdmin):
         }
         return super().change_view(request, object_id, form_url, extra_context=context)
 
+
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Position, PositionAdmin)
 admin.site.register(TypeOfDish, TypeOfDishAdmin)
@@ -119,3 +133,5 @@ admin.site.register(Checklist, ChecklistAdmin)
 admin.site.register(PhotoGallery, PhotoGalleryAdmin)
 admin.site.register(Menu, MenuAdmin)
 admin.site.register(ExcelFile, ExcelFileAdmin)
+admin.site.register(TestResult, TestResultAdmin)
+

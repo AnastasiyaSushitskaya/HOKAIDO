@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Результаты теста</h1>
+    <div class="result-card">
+        <h2>Тест: "Угадай блюдо"</h2>
+        <p>Категория: {{ result.dish_type.name }}</p>
+        <div class="score">
+            Ваш результат: <strong>{{ result.correct }} из {{ result.total }}</strong>
+        </div>
+        <p>Дата прохождения: {{ result.date_completed|date:"d.m.Y H:i" }}</p>
+        <a href="{% url 'mini_games' %}" class="btn">Вернуться к тестам</a>
+    </div>
+</div>
+{% endblock %}

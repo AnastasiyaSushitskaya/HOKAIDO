@@ -21,22 +21,13 @@
             <!-- Навигация -->
             <nav>
                 <a href="/schedule">График</a>
-                <!-- <div class="burger-menu">
-
-                    <a href="#" class="burger-toggle">О нас<span class="arrow">&#9660;</span></a>
-                    <div class="burger-links">
-                        <a href="/about">О нашей клинике</a>
-                        <a href="/addresses">Адреса</a>
-                        <a href="/contacts">Контакты</a>
-                        <a href="/doctors">Наши специалисты</a>
-                        <a href="/news">Новости</a>
-                        <a href="/reviews">Отзывы</a>
-                    </div>
-                </div> -->
                 <a href="/menu">Меню</a>
-                <a href="/mini_games">Мини-игры</a>
+                <a href="/mini-games">Мини-игры</a>
                 <a href="/specialists">Сотрудники</a>
                 <a href="/clue">Подсказка</a>
+                {% if user.is_authenticated and user.is_staff %}
+                <a href="/admin">⚙</a>
+                {% endif %}
             </nav>
 
 
@@ -59,13 +50,13 @@
             <!-- Контакты -->
             <div class="footer-contacts">
                 <p>Контакты:</p>
-                <p>+375 25 XXX XX</p>
-                <p>+375 33 XXX XX</p>
+                <p>+375 25 704 11 21</p>
+                <p>+375 25 968 38 20</p>
             </div>
 
             <!-- Социальные сети -->
             <div class="footer-socials">
-                <a href="https://web.telegram.org/a/" class="social-icon">
+                <a href="https://t.me/www_stasia" class="social-icon">
                     <img src="{% static 'images/telegram-icon.png' %}" alt="Telegram">
                 </a>
                 <a href="https://www.instagram.com/accounts/login/" class="social-icon">
@@ -74,20 +65,10 @@
             </div>
         </div>
     </footer>
+
+    {% block scripts %}{% endblock scripts %}
+</body>
 </body>
 
-<!-- <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const burgerToggle = document.querySelector(".burger-toggle");
-        const burgerMenu = document.querySelector(".burger-menu");
-        const arrow = document.querySelector(".burger-toggle .arrow");
-
-        burgerToggle.addEventListener("click", function (event) {
-            event.preventDefault(); // Предотвращаем переход по ссылке
-            burgerMenu.classList.toggle("active"); // Переключаем класс активности меню
-            arrow.classList.toggle("rotated"); // Переключаем класс для стрелки
-        });
-    });
-</script> -->
 
 </html>

@@ -38,7 +38,7 @@ class Account(AbstractUser):
     first_name = models.CharField(max_length=150, verbose_name="Имя")
     middle_name = models.CharField(max_length=150, blank=True, null=True, verbose_name="Отчество")
     date_of_birth = models.DateField(blank=True, null=True, verbose_name="Дата рождения")
-    photo = models.ImageField(upload_to='accounts/photos/',blank=True, null=True, verbose_name="Фото")
+    photo = models.ImageField(upload_to='accounts/photos/', blank=True, null=True, verbose_name="Фото")
     position = models.ForeignKey(
         'Position',
         on_delete=models.CASCADE,
@@ -150,6 +150,41 @@ class Menu(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class TestResult(models.Model):
+    user = models.ForeignKey(
+        'Account',  # Или 'Account' если у вас кастомная модель
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь"
+    )
+    test_type = models.CharField(
+        max_length=50,
+        verbose_name="Вид теста"
+    )
+    dish_type = models.ForeignKey(
+        'TypeOfDish',
+        on_delete=models.CASCADE,
+        verbose_name="Тип блюда"
+    )
+    correct = models.IntegerField(
+        verbose_name="Правильные ответы"
+    )
+    total = models.IntegerField(
+        verbose_name="Всего вопросов"
+    )
+    date_completed = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата прохождения"
+    )
+
+    class Meta:
+        verbose_name = "Результат теста"
+        verbose_name_plural = "Результаты тестов"
+        ordering = ['-date_completed']
+
+    def __str__(self):
+        return f"{self.user}: {self.test_type} ({self.dish_type}) {self.correct}/{self.total}"
 
 
 class ExcelFile(models.Model):
