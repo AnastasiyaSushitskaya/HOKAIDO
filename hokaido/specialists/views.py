@@ -1,4 +1,5 @@
 import random
+from random import sample, shuffle
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import ExcelFile, Account, PhotoGallery, TypeOfDish, Position, Checklist, Menu, TestResult
 from django.contrib.auth.decorators import login_required
@@ -35,7 +36,8 @@ def guess_dish_test(request, dish_type_id):
             'dish_ids': list(Menu.objects.filter(type_of_dish=dish_type).values_list('id', flat=True)),
             'current_index': 0,
             'correct': 0,
-            'test_type': 'guess_dish',
+            # 'test_type': 'guess_dish',
+            'test_type': 'Угадай блюдо',
             'dish_type_id': dish_type_id
         }
 
@@ -95,18 +97,206 @@ def process_answer(request, dish_type_id):
 
 @login_required
 def test_results(request, result_id):
-    result = get_object_or_404(TestResult, id=result_id, user=request.user)
-    return render(request, 'tests/results.html', {'result': result})
+    try:
+        result = TestResult.objects.get(id=result_id, user=request.user)
+        return render(request, 'tests/results.html', {'result': result})
+    except TestResult.DoesNotExist:
+        return redirect('mini_games')  # Или другая страница-заглушка
 
 
+@login_required
 def missing_ingredient_test(request, dish_type_id):
-    dish_type = TypeOfDish.objects.get(id=dish_type_id)
-    return render(request, 'tests/missing_ingredient.html', {'dish_type': dish_type})
+    dish_type = get_object_or_404(TypeOfDish, id=dish_type_id)
+
+    # Инициализация или получение данных сессии
+    if 'missing_ingredient_test' not in request.session:
+        request.session['missing_ingredient_test'] = {
+            'dish_ids': list(Menu.objects.filter(type_of_dish=dish_type).values_list('id', flat=True)),
+            'current_index': 0,
+            'correct': 0,
+            'test_type': 'Недостающий ингредиент',
+            'dish_type_id': dish_type_id
+        }
+
+    test_data = request.session['missing_ingredient_test']
+
+    # Проверка завершения теста
+    if test_data['current_index'] >= len(test_data['dish_ids']):
+        result = TestResult.objects.create(
+            user=request.user,
+            test_type=test_data['test_type'],
+            dish_type_id=test_data['dish_type_id'],
+            correct=test_data['correct'],
+            total=len(test_data['dish_ids'])
+        )
+        # Сохраняем result_id в сессии перед удалением
+        request.session['test_result_id'] = result.id
+        del request.session['missing_ingredient_test']
+        request.session.modified = True
+        return redirect('test_results', result_id=result.id)  # Четкий редирект
+
+    # Получение текущего блюда
+    current_dish = Menu.objects.get(id=test_data['dish_ids'][test_data['current_index']])
+
+    # Обработка состава блюда
+    ingredients = [ing.strip() for ing in current_dish.compound.split(',') if ing.strip()]
+
+    if not ingredients:
+        # Если нет ингредиентов, пропускаем это блюдо
+        test_data['current_index'] += 1
+        request.session.modified = True
+        return redirect('missing_ingredient_test', dish_type_id=dish_type_id)
+
+    # Выбор ингредиента, который будем скрывать
+    hidden_ingredient = random.choice(ingredients)
+
+    # Создание строки с пропущенным ингредиентом
+    hidden_index = ingredients.index(hidden_ingredient)
+    display_ingredients = ingredients.copy()
+    display_ingredients[hidden_index] = '...'
+    display_compound = ', '.join(display_ingredients)
+
+    # Подготовка вариантов ответов
+    correct_answer = hidden_ingredient
+    other_ingredients = []
+
+    # Собираем ингредиенты из других блюд
+    other_dishes = Menu.objects.filter(type_of_dish=dish_type).exclude(id=current_dish.id)
+    for dish in other_dishes:
+        if dish.compound:
+            other_ingredients.extend([ing.strip() for ing in dish.compound.split(',') if ing.strip()])
+
+    # Удаляем дубликаты и правильный ответ
+    other_ingredients = list(set(other_ingredients))
+    if correct_answer in other_ingredients:
+        other_ingredients.remove(correct_answer)
+
+    # Выбираем 3 случайных неправильных варианта
+    wrong_answers = random.sample(other_ingredients, min(3, len(other_ingredients)))
+    options = wrong_answers + [correct_answer]
+    random.shuffle(options)
+
+    context = {
+        'dish_type': dish_type,
+        'target_dish': current_dish,
+        'display_compound': display_compound,
+        'options': options,
+        'correct_answer': correct_answer,
+        'current_progress': f"{test_data['current_index'] + 1}/{len(test_data['dish_ids'])}"
+    }
+
+    return render(request, 'tests/missing_ingredient.html', context)
 
 
+@login_required
+def process_missing_ingredient(request, dish_type_id):
+    if request.method == 'POST' and 'missing_ingredient_test' in request.session:
+        test_data = request.session['missing_ingredient_test']
+        user_answer = request.POST.get('answer', '').strip()
+        correct_answer = request.POST.get('correct_answer', '').strip()
+
+        if user_answer == correct_answer:
+            test_data['correct'] += 1
+
+        test_data['current_index'] += 1
+        request.session.modified = True
+
+        return redirect('missing_ingredient_test', dish_type_id=dish_type_id)
+    return redirect('mini_games')
+
+
+@login_required
 def dish_composition_test(request, dish_type_id):
-    dish_type = TypeOfDish.objects.get(id=dish_type_id)
-    return render(request, 'tests/dish_composition.html', {'dish_type': dish_type})
+    dish_type = get_object_or_404(TypeOfDish, id=dish_type_id)
+
+    # Инициализация или получение данных сессии
+    if 'dish_composition_test' not in request.session:
+        request.session['dish_composition_test'] = {
+            'dish_ids': list(Menu.objects.filter(type_of_dish=dish_type).values_list('id', flat=True)),
+            'current_index': 0,
+            'correct': 0,
+            'test_type': 'Состав блюда',
+            'dish_type_id': dish_type_id
+        }
+
+    test_data = request.session['dish_composition_test']
+
+    # Проверка завершения теста
+    if test_data['current_index'] >= len(test_data['dish_ids']):
+        result = TestResult.objects.create(
+            user=request.user,
+            test_type=test_data['test_type'],
+            dish_type_id=test_data['dish_type_id'],
+            correct=test_data['correct'],
+            total=len(test_data['dish_ids'])
+        )
+        del request.session['dish_composition_test']
+        return redirect('test_results', result_id=result.id)
+
+    # Получаем текущее блюдо
+    current_dish = Menu.objects.get(id=test_data['dish_ids'][test_data['current_index']])
+
+    # Обработка ингредиентов
+    ingredients = []
+    if current_dish.compound:  # Проверяем, что compound не пустой
+        ingredients = [ing.strip() for ing in current_dish.compound.split(',') if ing.strip()]
+
+    if not ingredients:
+        # Если нет ингредиентов, пропускаем блюдо
+        test_data['current_index'] += 1
+        request.session.modified = True
+        return redirect('dish_composition_test', dish_type_id=dish_type_id)
+
+    # Собираем случайные неправильные ингредиенты
+    wrong_ingredients = []
+    other_dishes = Menu.objects.filter(type_of_dish=dish_type).exclude(id=current_dish.id)
+    for dish in other_dishes:
+        if dish.compound:
+            wrong_ingredients.extend([ing.strip() for ing in dish.compound.split(',') if ing.strip()])
+
+    # Удаляем дубликаты и правильные ингредиенты
+    wrong_ingredients = list(set(wrong_ingredients) - set(ingredients))
+
+    # Выбираем 3-5 случайных неправильных ингредиентов
+    num_wrong = min(5, len(wrong_ingredients))
+    wrong_ingredients_sample = sample(wrong_ingredients, num_wrong) if num_wrong > 0 else []
+
+    # Формируем общий список и перемешиваем
+    all_ingredients = ingredients + wrong_ingredients_sample
+    shuffle(all_ingredients)
+
+    context = {
+        'dish_type': dish_type,
+        'target_dish': current_dish,
+        'ingredients': all_ingredients,
+        'correct_ingredients': ingredients,
+        'current_progress': f"{test_data['current_index'] + 1}/{len(test_data['dish_ids'])}"
+    }
+
+    return render(request, 'tests/dish_composition.html', context)
+
+
+@login_required
+def process_dish_composition(request, dish_type_id):
+    if request.method == 'POST' and 'dish_composition_test' in request.session:
+        test_data = request.session['dish_composition_test']
+        selected_ingredients = request.POST.getlist('ingredients')
+        correct_ingredients = request.POST.getlist('correct_ingredients')
+
+        # Проверяем, совпадают ли выбранные ингредиенты с правильными
+        is_correct = (
+            set(selected_ingredients) == set(correct_ingredients) and
+            len(selected_ingredients) == len(correct_ingredients)
+        )
+
+        if is_correct:
+            test_data['correct'] += 1
+
+        test_data['current_index'] += 1
+        request.session.modified = True
+
+        return redirect('dish_composition_test', dish_type_id=dish_type_id)
+    return redirect('mini_games')
 
 
 def specialists_view(request):
@@ -121,8 +311,13 @@ def clue_view(request):
     return render(request, 'clue.html', {'checklists': checklists})
 
 
+@login_required
 def personal_view(request):
-    return render(request, "personal.html")
+    test_results = TestResult.objects.filter(user=request.user).order_by('-date_completed')
+    context = {
+        'test_results': test_results
+    }
+    return render(request, "personal.html", context)
 
 
 @login_required

@@ -18,11 +18,30 @@ urlpatterns = [
 
                   path('test/missing-ingredient/<int:dish_type_id>/', views.missing_ingredient_test,
                        name='missing_ingredient_test'),
+                  path('test/process-missing-ingredient/<int:dish_type_id>/',
+                       views.process_missing_ingredient,
+                       name='process_missing_ingredient'),
+
                   path('test/dish-composition/<int:dish_type_id>/', views.dish_composition_test,
                        name='dish_composition_test'),
+                  path('test/process-dish-composition/<int:dish_type_id>/', views.process_dish_composition,
+                       name='process_dish_composition'),
 
                   path('specialists/', views.specialists_view, name='specialists'),
                   path('clue/', views.clue_view, name='clue'),
                   path('personal/', views.personal_view, name='personal'),
 
+                  path('password_change/',
+                       auth_views.PasswordChangeView.as_view(
+                           template_name='password_change.html',
+                           success_url='/password_change_done/'
+                       ),
+                       name='password_change'),
+                  path('password_change_done/',
+                       auth_views.PasswordChangeDoneView.as_view(
+                           template_name='password_change_done.html'
+                       ),
+                       name='password_change_done'),
+
+                  path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

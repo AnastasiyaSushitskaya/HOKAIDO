@@ -1,0 +1,327 @@
+/* Общие настройки */
+body {
+    background-color: #FFF9E6;
+    font-family: "Segoe UI", sans-serif;
+    color: #333;
+}
+
+/* Верхняя панель */
+#header {
+    background-color: #3489f1;
+    padding: 10px;
+}
+
+#header h1 a {
+    color: white;
+    font-size: 22px;
+    text-decoration: none;
+}
+
+/* Левое меню */
+#nav-sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #FFAA00;
+    width: 260px;
+    min-width: 260px;
+    border-radius: 12px;
+    padding: 15px 10px;
+}
+
+#nav-sidebar li {
+    margin-bottom: 10px;
+}
+
+#nav-sidebar li a {
+    display: block;
+    color: #3489f1;
+    padding: 10px 15px;
+    border-radius: 12px;
+    transition: background 0.2s, color 0.2s;
+}
+
+#nav-sidebar li a:hover,
+#nav-sidebar .current-model > a,
+#nav-sidebar .current-app > a {
+    background-color: #FFAA00;
+    color: white;
+}
+
+/* Основной контент */
+#content {
+    background-color: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 0 10px rgba(18, 64, 171, 0.1);
+}
+
+/* Кнопки */
+button,
+input[type=submit],
+.button {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    background-color: #FFAA00;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover,
+input[type=submit]:hover,
+.button:hover {
+    background-color: #3489f1;
+    color: white;
+}
+
+/* Формы */
+input, select, textarea {
+    border: 1px solid #FFAA00;
+    border-radius: 6px;
+    padding: 6px 10px;
+    background-color: #ffffff;
+    color: #333;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+}
+
+/* Таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(18, 64, 171, 0.1);
+    border-radius: 8px;
+}
+
+table th,
+table td {
+    border: 1px solid #FFAA00;
+    padding: 15px;
+    text-align: left;
+    transition: background-color 0.3s;
+}
+
+table th {
+    color: #3489f1;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #FFF9E6;
+}
+
+table tr:hover {
+    background-color: rgba(255, 170, 0, 0.1);
+}
+
+table tr {
+    border-radius: 8px;
+}
+
+/* Сообщения */
+.messagelist .success {
+    background-color: #3489f1;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.messagelist .error {
+    background-color: #FFAA00;
+    color: #333;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Страница входа */
+.login {
+    background-color: #FFF9E6;
+}
+
+.login #content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.05);
+}
+
+/* Скрыть кнопку смены темы */
+.theme-toggle {
+    display: none !important;
+}
+
+/* Тулбар */
+#toolbar {
+    background-color: rgba(255, 170, 0, 0.1);
+    border-bottom: 1px solid #FFAA00;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Поиск */
+#changelist-search {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+#changelist-search label {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+#changelist-search #searchbar {
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 250px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+#changelist-search input[type="submit"] {
+    width: 100px !important;
+    padding: 4px 10px !important;
+    border: 1px solid #3489f1 !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease-in-out !important;
+    font-size: 14px !important;
+    background-color: #FFAA00 !important;
+    color: #333 !important;
+}
+
+#changelist-search input[type="submit"]:hover {
+    background-color: #3489f1 !important;
+    color: white !important;
+}
+
+#changelist-search input[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Блок действий */
+#changelist .actions {
+    padding: 0 10px;
+    padding-bottom: 3px;
+    background: rgba(255, 170, 0, 0.1);
+    border-top: none;
+    border-bottom: none;
+    line-height: 1.5rem;
+    color: #333;
+    width: 100%;
+}
+
+.actions {
+    background-color: rgba(255, 170, 0, 0.1);
+    border: 1px solid #FFAA00;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.actions label {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+
+.actions .action-select {
+    padding: 4px 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #FFAA00;
+    background-color: #ffffff;
+    color: #333;
+    transition: border-color 0.2s ease;
+    min-width: 150px;
+}
+
+.actions button {
+    padding: 4px 8px;
+    background-color: #FFAA00;
+    border: none;
+    border-radius: 4px;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.actions button:hover {
+    background-color: #3489f1;
+    color: white;
+}
+
+.action-counter {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Мобильная версия */
+@media (max-width: 600px) {
+    .actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actions .action-select, .actions button {
+        margin-bottom: 5px;
+    }
+}
+
+#toolbar form input[type="submit"] {
+    border: 1px solid var(--border-color);
+    font-size: 0.8125rem;
+    padding: 4px 8px;
+    margin: 0;
+    vertical-align: middle;
+    background: var(--body-bg);
+    cursor: pointer;
+    color: var(--body-fg);
+    box-shadow: none !important;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    border: none;
+    font-weight: 400;
+    background: #FFAA00;
+    color: #333;
+    font-weight: bold;
+}
+
+input[type=submit].default:hover {
+    background-color: #3489f1;
+    color: white;
+}
+
+.messagelist a:link, .messagelist a:visited {
+    color: white;
+    text-decoration: underline;
+    transition: color 0.15s, background 0.15s;
+}
+
+ul.messagelist li {
+    background: none !important;
+}
+
+.messagelist .success {
+    background-color: #3489f1 !important;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}

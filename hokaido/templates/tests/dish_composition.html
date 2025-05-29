@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Состав блюда: {{ dish_type.name }} | HOKAIDO{% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href='{% static "css/tests/dish_composition.css" %}'>
+{% endblock %}
+
+{% block scripts %}
+<script src='{% static "js/tests/dish_composition.js" %}'></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <a href="/main">Главная</a> &gt; 
+            <a href="/mini-games">Мини-игры</a> &gt; 
+            <span>Состав блюда: {{ dish_type.name }}</span>
+        </nav>
+    </div>
+
+    <div class="quiz-container" 
+         data-dish-type-id="{{ dish_type.id }}"
+         data-current-progress="{{ current_progress }}">
+         
+        <div class="progress-bar">
+            Прогресс: {{ current_progress }}
+        </div>
+        
+        <div class="quiz-header">
+            <h2>{{ target_dish.name }}</h2>
+        </div>
+        
+        <div class="quiz-image">
+            {% if target_dish.photo %}
+            <img src="{{ target_dish.photo.url }}" alt="{{ target_dish.name }}">
+            {% else %}
+            <div class="no-photo">Изображение отсутствует</div>
+            {% endif %}
+        </div>
+        
+        <form id="answer-form" method="post" action="{% url 'process_dish_composition' dish_type.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="correct_ingredients" value="{{ correct_ingredients|join:',' }}">
+            
+            <div class="quiz-question">
+                <h3>Выберите ингредиенты, которые входят в состав:</h3>
+            </div>
+            
+            <div class="quiz-options">
+                {% for ingredient in ingredients %}
+                <label class="option-checkbox">
+                    <input type="checkbox" name="ingredients" value="{{ ingredient }}">
+                    {{ ingredient }}
+                </label>
+                {% endfor %}
+            </div>
+            
+            <div class="quiz-navigation">
+                <button type="button" id="submit-btn" class="submit-btn" disabled>
+                    Проверить
+                </button>
+            </div>
+        </form>
+        
+        <div class="quiz-feedback" id="feedback"></div>
+    </div>
+</div>
+{% endblock %}

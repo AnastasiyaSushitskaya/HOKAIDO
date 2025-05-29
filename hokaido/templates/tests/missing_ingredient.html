@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Недостающий ингредиент: {{ dish_type.name }} | HOKAIDO{% endblock %}
+
+{% block links %}
+<link rel="stylesheet" href='{% static "css/tests/missing_ingredient.css" %}'>
+{% endblock %}
+
+{% block scripts %}
+<script src='{% static "js/tests/missing_ingredient.js" %}'></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <a href="/main">Главная</a> &gt; 
+            <a href="/mini-games">Мини-игры</a> &gt; 
+            <span>Недостающий ингредиент: {{ dish_type.name }}</span>
+        </nav>
+    </div>
+
+    <div class="quiz-container" 
+         data-correct-answer="{{ correct_answer }}"
+         data-dish-type-id="{{ dish_type.id }}"
+         data-current-progress="{{ current_progress }}">
+         
+        <div class="progress-bar">
+            Прогресс: {{ current_progress }}
+        </div>
+        
+        <div class="quiz-header">
+            <h2>{{ target_dish.name }}</h2>
+            <div class="dish-compound">
+                Состав: {{ display_compound }}
+            </div>
+        </div>
+        
+        <div class="quiz-image">
+            {% if target_dish.photo %}
+            <img src="{{ target_dish.photo.url }}" alt="{{ target_dish.name }}">
+            {% else %}
+            <div class="no-photo">Изображение отсутствует</div>
+            {% endif %}
+        </div>
+        
+        <form id="answer-form" method="post" action="{% url 'process_missing_ingredient' dish_type.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+            
+            <div class="quiz-question">
+                <h3>Какой ингредиент пропущен?</h3>
+            </div>
+            
+            <div class="quiz-options">
+                {% for option in options %}
+                <button type="button" class="option-btn" data-answer="{{ option }}">
+                    {{ option }}
+                </button>
+                {% endfor %}
+            </div>
+            
+            <div class="quiz-navigation">
+                <button type="button" id="next-btn" class="next-btn" disabled>
+                    Далее →
+                </button>
+            </div>
+        </form>
+        
+        <div class="quiz-feedback" id="feedback"></div>
+    </div>
+</div>
+{% endblock %}

@@ -7,6 +7,7 @@
     {% load static %}
     <link rel="icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href='{% static "css/style.css" %}'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     {% block links %}{% endblock links %}
 </head>
 
@@ -67,6 +68,10 @@
     </footer>
 
     {% block scripts %}{% endblock scripts %}
+
+    <button id="scrollToTopBtn" title="Наверх"></button> <!-- ▲ Unicode U+25B2 -->
+
+    <script src="{% static 'js/scroll_button.js' %}"></script>
 </body>
 </body>
 

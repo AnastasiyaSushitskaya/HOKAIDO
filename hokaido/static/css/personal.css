@@ -1,0 +1,381 @@
+/* Основные стили */
+body {
+    background-color: #FFF9E6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #FFF9E6;
+    min-height: calc(100vh - 120px);
+}
+
+
+/* Заголовок */
+.account-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    color: #1240AB;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.account-title::after {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #FFAA00, #1240AB);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+/* Табы */
+.tabs {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+}
+
+.tab-button {
+    padding: 12px 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    color: #1240AB;
+}
+
+.tab-button.active::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #FFAA00, #1240AB);
+    border-radius: 2px 2px 0 0;
+}
+
+.tab-button:hover:not(.active) {
+    color: #FFAA00;
+    background: rgba(255, 170, 0, 0.1);
+}
+
+/* Контент табов */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Статистика */
+.stats-grid {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.stats-header {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 1.5fr;
+    padding: 15px 20px;
+    background: linear-gradient(90deg, #1240AB, #1a56d6);
+    color: white;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 1.5fr;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s;
+}
+
+.stats-row:last-child {
+    border-bottom: none;
+}
+
+.stats-row:hover {
+    background: rgba(255, 170, 0, 0.05);
+}
+
+.stats-row span:nth-child(3) {
+    font-weight: 600;
+    color: #1240AB;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Настройки */
+.settings-options {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.settings-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    background: white;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.settings-button i {
+    color: #1240AB;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+.settings-button:hover {
+    border-color: #FFAA00;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 170, 0, 0.1);
+}
+
+.settings-button:hover i {
+    color: #FFAA00;
+}
+
+.logout {
+    color: #d9534f;
+}
+
+.logout i {
+    color: #d9534f;
+}
+
+.logout:hover {
+    border-color: #d9534f;
+    background: rgba(217, 83, 79, 0.05);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+
+    .stats-header,
+    .stats-row {
+        grid-template-columns: 1.5fr 1fr 0.8fr 1.2fr;
+        font-size: 0.9rem;
+        padding: 12px 15px;
+    }
+
+    .account-title {
+        font-size: 2rem;
+    }
+
+    .settings-options {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .stats-header,
+    .stats-row {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .stats-header span {
+        display: none;
+    }
+
+    .stats-row span::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #1240AB;
+        margin-right: 8px;
+    }
+
+    .tab-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Форма смены пароля */
+.password-change-form, .password-change-success {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    color: #1240AB;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.form-title::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #FFAA00, #1240AB);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input {
+    padding: 12px 15px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #1240AB;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(18, 64, 171, 0.1);
+}
+
+.password-help {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+.submit-button {
+    background: linear-gradient(90deg, #1240AB, #1a56d6);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.submit-button:hover {
+    background: linear-gradient(90deg, #0f3899, #1240AB);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(18, 64, 171, 0.2);
+}
+
+/* Сообщения об ошибках */
+.form-errors {
+    background: rgba(217, 83, 79, 0.1);
+    border-left: 4px solid #d9534f;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.error-message {
+    color: #d9534f;
+    font-size: 0.9rem;
+}
+
+/* Страница успешной смены пароля */
+.password-change-success {
+    text-align: center;
+}
+
+.success-icon {
+    font-size: 5rem;
+    color: #4BB543;
+    margin: 20px 0;
+}
+
+.success-message {
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.return-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #FFAA00, #ffc040);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.return-button:hover {
+    background: linear-gradient(90deg, #e69900, #FFAA00);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 170, 0, 0.2);
+    color: white;
+}

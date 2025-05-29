@@ -1,17 +1,68 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Аккаунт | HOKAIDO{% endblock title %}
+{% block title %}Аккаунт | HOKAIDO{% endblock %}
 
+{% block links %}
+<link rel="stylesheet" href='{% static "css/personal.css" %}'>
+{% endblock %}
 
 {% block content %}
+
 <div class="container">
+
     <div class="breadcrumb-container">
         <nav class="breadcrumb">
             <a href="/main"><b>Главная</b></a> &gt; <span><b>Личный кабинет</b></span>
         </nav>
     </div>
-<h1>Тут будет личный кабинет</h1>
+
+    <div class="personal-account">
+        <h1 class="account-title">Личный кабинет</h1>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="stats">Статистика тестов</button>
+            <button class="tab-button" data-tab="settings">Настройки</button>
+        </div>
+
+        <div class="tab-content active" id="stats">
+            <div class="stats-grid">
+                {% if test_results %}
+                <div class="stats-header">
+                    <span>Тест</span>
+                    <span>Категория</span>
+                    <span>Результат</span>
+                    <span>Дата</span>
+                </div>
+                {% for result in test_results %}
+                <div class="stats-row">
+                    <span>{{ result.test_type }}</span>
+                    <span>{{ result.dish_type.name }}</span>
+                    <span>{{ result.correct }}/{{ result.total }}</span>
+                    <span>{{ result.date_completed|date:"d.m.Y H:i" }}</span>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="no-results">Вы ещё не проходили тесты.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="tab-content" id="settings">
+            <div class="settings-options">
+                <a href="{% url 'password_change' %}" class="settings-button">
+                    <i class="fas fa-key"></i> Сменить пароль
+                </a>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="settings-button logout">
+                        <i class="fas fa-sign-out-alt"></i> Выйти из аккаунта
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
-{% endblock content %}
+<script src='{% static "js/personal.js" %}'></script>
+{% endblock %}

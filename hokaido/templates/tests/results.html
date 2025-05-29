@@ -1,10 +1,16 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block links %}
+<link rel="stylesheet" href='{% static "css/tests/results.css" %}'>
+{% endblock %}
+
 
 {% block content %}
 <div class="container">
     <h1>Результаты теста</h1>
     <div class="result-card">
-        <h2>Тест: "Угадай блюдо"</h2>
+        <h2>Тест: "{{ result.test_type }}"</h2>
         <p>Категория: {{ result.dish_type.name }}</p>
         <div class="score">
             Ваш результат: <strong>{{ result.correct }} из {{ result.total }}</strong>
