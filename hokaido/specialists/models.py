@@ -187,6 +187,20 @@ class TestResult(models.Model):
         return f"{self.user}: {self.test_type} ({self.dish_type}) {self.correct}/{self.total}"
 
 
+# class PositionTypeOfDish(models.Model):
+#     position = models.ForeignKey(
+#         'Position',
+#         on_delete=models.CASCADE,
+#         verbose_name="Должность",
+#         related_name="checklists"
+#     )
+#     dish_type = models.ForeignKey(
+#         'TypeOfDish',
+#         on_delete=models.CASCADE,
+#         verbose_name="Виды блюд, которые должен готовить"
+#     )
+
+
 class ExcelFile(models.Model):
     file = models.FileField(upload_to='excel_files/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
