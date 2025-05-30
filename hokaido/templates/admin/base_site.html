@@ -5,37 +5,57 @@
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/custom_admin.css' %}">
 <script>
-    // Принудительно устанавливаем светлую тему
+    // 1. Жёстко устанавливаем светлую тему и блокируем тёмную
     document.documentElement.setAttribute('data-theme', 'light');
-    
-    // Блокируем возможность изменения темы
-    Object.defineProperty(window, 'localStorage', {
-        value: {
-            getItem: function(key) {
-                return key === 'django.admin.theme' ? 'light' : null;
-            },
-            setItem: function(key, value) {
-                // Блокируем запись любых значений
-                if (key === 'django.admin.theme') return;
-            },
-            removeItem: function(key) {
-                // Блокируем удаление
-                if (key === 'django.admin.theme') return;
-            },
-            clear: function() {
-                // Блокируем очистку
-                return;
+    document.documentElement.classList.remove('dark-theme');
+    document.body.classList.remove('dark-theme');
+
+    // 2. Удаляем все связанные с темой стили из localStorage и sessionStorage
+    localStorage.setItem('django.admin.theme', 'light');
+    sessionStorage.setItem('django.admin.theme', 'light');
+    localStorage.removeItem('django-admin-theme-preference');
+    sessionStorage.removeItem('django-admin-theme-preference');
+
+    // 3. Блокируем любые попытки изменить тему в будущем
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                document.documentElement.setAttribute('data-theme', 'light');
             }
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                document.documentElement.classList.remove('dark-theme');
+                document.body.classList.remove('dark-theme');
+            }
+        });
+    });
+
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme', 'class'],
+    });
+
+    observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class'],
+    });
+
+    // 4. Перехватываем и блокируем любые попытки изменить localStorage
+    const originalLocalStorageSetItem = localStorage.setItem;
+    localStorage.setItem = function(key, value) {
+        if (key.includes('theme') || key.includes('Theme')) {
+            return; // игнорируем любые попытки изменить тему
+        }
+        originalLocalStorageSetItem.apply(this, arguments);
+    };
+
+    // 5. На всякий случай переопределяем document.documentElement.className
+    Object.defineProperty(document.documentElement, 'className', {
+        get() { return ''; },
+        set(value) {
+            if (value.includes('dark-theme')) return;
+            this.setAttribute('class', value);
         },
-        writable: false,
         configurable: false
     });
-    
-    // Дополнительная защита на случай, если админка попытается изменить тему
-    const originalClassListAdd = DOMTokenList.prototype.add;
-    DOMTokenList.prototype.add = function() {
-        if (arguments[0] === 'dark-theme') return;
-        return originalClassListAdd.apply(this, arguments);
-    };
 </script>
 {% endblock %}
