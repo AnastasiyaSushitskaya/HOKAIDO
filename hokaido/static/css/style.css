@@ -298,9 +298,9 @@ footer {
   bottom: 40px;
   right: 40px;
   z-index: 1000;
-  background: linear-gradient(135deg, #1240AB, #1a56d6); /* Основной синий градиент */
-  color: #FFF9E6; /* Цвет текста как у body */
-  border: 2px solid #FFAA00; /* Акцентная оранжевая рамка */
+  background: linear-gradient(135deg, #ffffff, #ffffff); /* Основной синий градиент */
+  color: #000000; /* Цвет текста как у body */
+  border: 2px solid #000000; /* Акцентная оранжевая рамка */
   border-radius: 50%;
   width: 56px;
   height: 56px;
@@ -322,8 +322,8 @@ footer {
 }
 
 #scrollToTopBtn:hover {
-  background: linear-gradient(135deg, #0f3899, #1240AB);
-  border-color: #ffc040;
+  background: linear-gradient(135deg, #ffffff, #ffffff);
+  border-color: #000000;
   transform: translateY(0) rotate(0deg);
   box-shadow: 
     0 6px 16px rgba(18, 64, 171, 0.3),
