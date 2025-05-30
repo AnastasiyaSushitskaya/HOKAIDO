@@ -98,6 +98,9 @@ class TestResultAdmin(admin.ModelAdmin):
     fields = ("user", "test_type", "dish_type", "correct", "total", "date_completed")
     readonly_fields = ("date_completed",)
 
+class PositionTypeOfDishAdmin(admin.ModelAdmin):
+    list_display = ()
+
 class ExcelFileAdmin(admin.ModelAdmin):
     list_display = ('file', 'uploaded_at', 'display_excel_content')
 
