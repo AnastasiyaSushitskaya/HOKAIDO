@@ -5,10 +5,37 @@
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/custom_admin.css' %}">
 <script>
+    // Принудительно устанавливаем светлую тему
     document.documentElement.setAttribute('data-theme', 'light');
-    // отключим сохранение в localStorage
-    localStorage.clear();  // Очистка всего localStorage
-    // отключим сохранение в localStorage
-    localStorage.setItem('django.admin.theme', 'light');
+    
+    // Блокируем возможность изменения темы
+    Object.defineProperty(window, 'localStorage', {
+        value: {
+            getItem: function(key) {
+                return key === 'django.admin.theme' ? 'light' : null;
+            },
+            setItem: function(key, value) {
+                // Блокируем запись любых значений
+                if (key === 'django.admin.theme') return;
+            },
+            removeItem: function(key) {
+                // Блокируем удаление
+                if (key === 'django.admin.theme') return;
+            },
+            clear: function() {
+                // Блокируем очистку
+                return;
+            }
+        },
+        writable: false,
+        configurable: false
+    });
+    
+    // Дополнительная защита на случай, если админка попытается изменить тему
+    const originalClassListAdd = DOMTokenList.prototype.add;
+    DOMTokenList.prototype.add = function() {
+        if (arguments[0] === 'dark-theme') return;
+        return originalClassListAdd.apply(this, arguments);
+    };
 </script>
 {% endblock %}
