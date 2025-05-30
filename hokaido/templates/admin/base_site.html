@@ -5,57 +5,53 @@
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/custom_admin.css' %}">
 <script>
-    // 1. Жёстко устанавливаем светлую тему и блокируем тёмную
+    // 1. Жёстко переопределяем тему в HTML (даже если стоит 'auto')
     document.documentElement.setAttribute('data-theme', 'light');
-    document.documentElement.classList.remove('dark-theme');
-    document.body.classList.remove('dark-theme');
+    document.documentElement.removeAttribute('data-theme-auto');  // на случай, если есть такой атрибут
 
-    // 2. Удаляем все связанные с темой стили из localStorage и sessionStorage
-    localStorage.setItem('django.admin.theme', 'light');
-    sessionStorage.setItem('django.admin.theme', 'light');
-    localStorage.removeItem('django-admin-theme-preference');
-    sessionStorage.removeItem('django-admin-theme-preference');
+    // 2. Удаляем все следы тёмной темы из DOM
+    document.documentElement.classList.remove('dark-theme', 'dark');
+    document.body.classList.remove('dark-theme', 'dark');
 
-    // 3. Блокируем любые попытки изменить тему в будущем
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+    // 3. Блокируем любые попытки изменить тему через MutationObserver
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.attributeName === 'data-theme') {
                 document.documentElement.setAttribute('data-theme', 'light');
             }
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                document.documentElement.classList.remove('dark-theme');
-                document.body.classList.remove('dark-theme');
+            if (mutation.attributeName === 'class') {
+                document.documentElement.classList.remove('dark-theme', 'dark');
+                document.body.classList.remove('dark-theme', 'dark');
             }
         });
     });
 
     observer.observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ['data-theme', 'class'],
+        attributeFilter: ['data-theme', 'class']
     });
 
-    observer.observe(document.body, {
-        attributes: true,
-        attributeFilter: ['class'],
-    });
-
-    // 4. Перехватываем и блокируем любые попытки изменить localStorage
-    const originalLocalStorageSetItem = localStorage.setItem;
-    localStorage.setItem = function(key, value) {
-        if (key.includes('theme') || key.includes('Theme')) {
-            return; // игнорируем любые попытки изменить тему
+    // 4. Подмена localStorage (чтобы админка не могла прочитать 'auto' или 'dark')
+    const originalGetItem = localStorage.getItem;
+    localStorage.getItem = function(key) {
+        if (key === 'django.admin.theme' || key === 'admin_theme') {
+            return 'light'; // всегда возвращаем 'light', даже если в хранилище 'auto' или 'dark'
         }
-        originalLocalStorageSetItem.apply(this, arguments);
+        return originalGetItem.apply(this, arguments);
     };
 
-    // 5. На всякий случай переопределяем document.documentElement.className
-    Object.defineProperty(document.documentElement, 'className', {
-        get() { return ''; },
-        set(value) {
-            if (value.includes('dark-theme')) return;
-            this.setAttribute('class', value);
-        },
-        configurable: false
-    });
+    // 5. Перехват и блокировка попыток записать тему
+    const originalSetItem = localStorage.setItem;
+    localStorage.setItem = function(key, value) {
+        if (key.includes('theme') || key.includes('Theme')) {
+            return; // игнорируем запись
+        }
+        originalSetItem.apply(this, arguments);
+    };
+
+    // 6. Насильно перезаписываем тему каждые 100 мс (на случай, если админка упорно пытается её менять)
+    setInterval(function() {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }, 100);
 </script>
 {% endblock %}
