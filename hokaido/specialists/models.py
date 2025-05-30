@@ -74,8 +74,8 @@ class Account(AbstractUser):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        full_name = f"{self.last_name} {self.first_name} {self.middle_name or ''}".strip()
-        return full_name
+        # full_name = f"{self.last_name} {self.first_name} {self.middle_name or ''}".strip()
+        return f'{self.username}'
 
 
 class Position(models.Model):
@@ -187,24 +187,44 @@ class TestResult(models.Model):
         return f"{self.user}: {self.test_type} ({self.dish_type}) {self.correct}/{self.total}"
 
 
-# class PositionTypeOfDish(models.Model):
-#     position = models.ForeignKey(
-#         'Position',
-#         on_delete=models.CASCADE,
-#         verbose_name="Должность",
-#         related_name="checklists"
-#     )
-#     dish_type = models.ForeignKey(
-#         'TypeOfDish',
-#         on_delete=models.CASCADE,
-#         verbose_name="Виды блюд, которые должен готовить"
-#     )
-#     class Meta:
-#         verbose_name = "Связь должностей и блюд"
-#         verbose_name_plural = "Связи должностей и блюд"
-#
-#     def __str__(self):
-#         return f"{self.position}: {self.dish_type}"
+class PositionTypeOfDish(models.Model):
+    position = models.ForeignKey(
+        'Position',
+        on_delete=models.CASCADE,
+        verbose_name="Должность",
+        related_name="position_dish_types"
+    )
+    dish_type = models.ForeignKey(
+        'TypeOfDish',
+        on_delete=models.CASCADE,
+        verbose_name="Виды блюд, которые должен готовить"
+    )
+
+    class Meta:
+        verbose_name = "Связь должностей и блюд"
+        verbose_name_plural = "Связи должностей и блюд"
+
+    def __str__(self):
+        return f"{self.position}: {self.dish_type}"
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(
+        Account,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь",
+        related_name="comments"
+    )
+    text = models.TextField(verbose_name="Текст комментария")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Комментарий от {self.user.username} ({self.created_at.date()})"
 
 
 class ExcelFile(models.Model):

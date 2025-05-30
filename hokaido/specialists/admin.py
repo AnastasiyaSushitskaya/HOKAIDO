@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import ExcelFile, Account, Position, TypeOfDish, Checklist, PhotoGallery, Menu, ExcelDataForm, TestResult
+from .models import ExcelFile, Account, Position, TypeOfDish, Checklist, PhotoGallery, Menu, ExcelDataForm, TestResult, \
+    PositionTypeOfDish, Comment
 import pandas as pd
 
 admin.site.site_header = "Администрирование HOKAIDO"  # Заголовок панели администратора
@@ -98,8 +99,20 @@ class TestResultAdmin(admin.ModelAdmin):
     fields = ("user", "test_type", "dish_type", "correct", "total", "date_completed")
     readonly_fields = ("date_completed",)
 
-# class PositionTypeOfDishAdmin(admin.ModelAdmin):
-#     list_display = ()
+
+class PositionTypeOfDishAdmin(admin.ModelAdmin):
+    list_display = ('position', 'dish_type',)
+    list_filter = ('position', 'dish_type',)
+    search_fields = ('position', 'dish_type',)
+    fields = ('position', 'dish_type',)
+
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('user', "created_at", 'text')
+    list_filter = ('user', "created_at")
+    search_fields = ('user',)
+    fields = ('user', "created_at", 'text')
+
 
 class ExcelFileAdmin(admin.ModelAdmin):
     list_display = ('file', 'uploaded_at', 'display_excel_content')
@@ -137,4 +150,6 @@ admin.site.register(PhotoGallery, PhotoGalleryAdmin)
 admin.site.register(Menu, MenuAdmin)
 admin.site.register(ExcelFile, ExcelFileAdmin)
 admin.site.register(TestResult, TestResultAdmin)
+admin.site.register(PositionTypeOfDish, PositionTypeOfDishAdmin)
+admin.site.register(Comment, CommentAdmin)
 

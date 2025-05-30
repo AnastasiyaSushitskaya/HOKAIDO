@@ -1,0 +1,65 @@
+/* Стили формы комментария */
+.comment-form-card {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.comment-form-title {
+    color: #1240AB;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.comment-textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+.comment-textarea:focus {
+    border-color: #FFAA00;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 170, 0, 0.2);
+}
+
+.comment-submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    background: linear-gradient(135deg, #FFAA00, #FFC107);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.comment-submit-btn:hover {
+    background: linear-gradient(135deg, #FFC107, #FFD54F);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 170, 0, 0.3);
+}
+
+.comment-submit-btn i {
+    font-size: 16px;
+}

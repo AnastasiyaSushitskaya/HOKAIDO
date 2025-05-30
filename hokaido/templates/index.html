@@ -13,9 +13,6 @@
 <div class="container">
     <!-- Герой секция -->
     <div class="hero-container">
-        <div class="hero-image">
-            <img src="{% static 'images/hokaido.jpg' %}" alt="Фото заведения">
-        </div>
         <div class="hero-text">
             <h1>HOKAIDO</h1>
             <p>Что-то</p>
@@ -58,6 +55,27 @@
         <button id="next" class="button">&#8250;</button>
     </div>
     <br>
+    <div class="divider"></div> <!--Разделительная линия -->
+    <br>
+
+    
+    <!-- Секция комментариев -->
+    <div class="comments-section">
+        <h2>Последние отзывы</h2>
+        <div class="comments-grid">
+            {% for comment in latest_comments %}
+            <div class="comment-card">
+                <div class="comment-header">
+                    <div class="comment-user">{{ comment.user.username }}</div>
+                    <div class="comment-date">{{ comment.created_at|date:"d.m.Y" }}</div>
+                </div>
+                <div class="comment-text">{{ comment.text|truncatechars:100 }}</div>
+            </div>
+            {% empty %}
+            <div class="no-comments">Пока нет отзывов. Будьте первым!</div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 

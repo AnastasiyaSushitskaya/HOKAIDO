@@ -53,34 +53,43 @@
         </div>
     </div>
 
-    <!-- Секция тестов -->
+<!-- Секция тестов -->
     <div class="tests-section">
         <h2>Тесты и викторины</h2>
 
-        {% for dish_type in dish_types %}
-        <div class="test-category">
-            <div class="test-category-header">
-                <h3>{{ dish_type.name }}</h3>
-                <div class="accordion-icon">+</div>
-            </div>
-            <div class="test-category-content">
-                <div class="test-types-container">
-                    <a href="{% url 'guess_dish_test' dish_type.id %}" class="test-type-card">
-                        <h4>Угадай блюдо</h4>
-                        <p>Определите блюдо по изображению</p>
-                    </a>
-                    <a href="{% url 'missing_ingredient_test' dish_type.id %}" class="test-type-card">
-                        <h4>Недостающий ингредиент</h4>
-                        <p>Что забыли добавить в блюдо?</p>
-                    </a>
-                    <a href="{% url 'dish_composition_test' dish_type.id %}" class="test-type-card">
-                        <h4>Состав блюда</h4>
-                        <p>Выберите правильные ингредиенты</p>
-                    </a>
+        {% if dish_types %}
+            {% for dish_type in dish_types %}
+            <div class="test-category">
+                <div class="test-category-header">
+                    <h3>{{ dish_type.name }}</h3>
+                    <div class="accordion-icon">+</div>
+                </div>
+                <div class="test-category-content">
+                    <div class="test-types-container">
+                        <a href="{% url 'guess_dish_test' dish_type.id %}" class="test-type-card">
+                            <h4>Угадай блюдо</h4>
+                            <p>Определите блюдо по изображению</p>
+                        </a>
+                        <a href="{% url 'missing_ingredient_test' dish_type.id %}" class="test-type-card">
+                            <h4>Недостающий ингредиент</h4>
+                            <p>Что забыли добавить в блюдо?</p>
+                        </a>
+                        <a href="{% url 'dish_composition_test' dish_type.id %}" class="test-type-card">
+                            <h4>Состав блюда</h4>
+                            <p>Выберите правильные ингредиенты</p>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <div class="no-tests-message">
+                <p>Для вашей должности нет доступных тестов.</p>
+                {% if not user.is_superuser %}
+                <p>Обратитесь к администратору для получения доступа.</p>
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 </div>
 

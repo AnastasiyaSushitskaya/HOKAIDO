@@ -42,6 +42,6 @@ urlpatterns = [
                            template_name='password_change_done.html'
                        ),
                        name='password_change_done'),
-
+                  path('comments/create/', views.CreateCommentView.as_view(), name='create_comment'),
                   path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

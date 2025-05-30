@@ -53,12 +53,29 @@
                 <a href="{% url 'password_change' %}" class="settings-button">
                     <i class="fas fa-key"></i> Сменить пароль
                 </a>
+
+                <a href="{% url 'create_comment' %}" class="settings-button comment-button">
+                    <i class="fas fa-comment-dots"></i> Оставить комментарий
+                </a>
+
                 <form action="{% url 'logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
                     <button type="submit" class="settings-button logout">
                         <i class="fas fa-sign-out-alt"></i> Выйти из аккаунта
                     </button>
                 </form>
+            </div>
+
+            <!-- Модальное окно для комментария -->
+            <div class="modal" id="comment-modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h3>Ваш комментарий</h3>
+                    <form id="comment-form">
+                        <textarea placeholder="Напишите ваш отзыв или предложение..." required></textarea>
+                        <button type="submit" class="submit-comment">Отправить</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

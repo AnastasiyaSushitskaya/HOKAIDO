@@ -1,8 +1,14 @@
 import random
 from random import sample, shuffle
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import ExcelFile, Account, PhotoGallery, TypeOfDish, Position, Checklist, Menu, TestResult
+
+from .forms import CommentForm
+from .models import ExcelFile, Account, PhotoGallery, TypeOfDish, Position, Checklist, Menu, TestResult, \
+    PositionTypeOfDish, Comment
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
 
 
 # Create your views here.
@@ -19,9 +25,28 @@ def menu_view(request):
     return render(request, 'menu.html', {'types_of_dish': types_of_dish})
 
 
+@login_required
 def mini_games_view(request):
+    # Получаем все типы блюд
+    all_dish_types = TypeOfDish.objects.all()
+
+    # Для администратора показываем все тесты
+    if request.user.is_superuser:
+        dish_types = all_dish_types
+    else:
+        # Получаем должность пользователя
+        user_position = request.user.position
+
+        # Получаем типы блюд, доступные для должности пользователя
+        available_dish_types = PositionTypeOfDish.objects.filter(
+            position=user_position
+        ).values_list('dish_type', flat=True)
+
+        # Фильтруем типы блюд
+        dish_types = all_dish_types.filter(id__in=available_dish_types)
+
     context = {
-        'dish_types': TypeOfDish.objects.all()  # Получаем все типы блюд из БД
+        'dish_types': dish_types,
     }
     return render(request, 'mini-games.html', context)
 
@@ -285,8 +310,8 @@ def process_dish_composition(request, dish_type_id):
 
         # Проверяем, совпадают ли выбранные ингредиенты с правильными
         is_correct = (
-            set(selected_ingredients) == set(correct_ingredients) and
-            len(selected_ingredients) == len(correct_ingredients)
+                set(selected_ingredients) == set(correct_ingredients) and
+                len(selected_ingredients) == len(correct_ingredients)
         )
 
         if is_correct:
@@ -320,6 +345,17 @@ def personal_view(request):
     return render(request, "personal.html", context)
 
 
+class CreateCommentView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'comments/create_comment.html'
+    success_url = reverse_lazy('personal')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
 @login_required
 def test_history(request):
     results = TestResult.objects.filter(user=request.user).order_by('-date_completed')
@@ -327,13 +363,16 @@ def test_history(request):
 
 
 def index(request):
-    specialists = Account.objects.filter(position__isnull=False)  # Фильтруем по наличию позиции, если нужно
-    # Получаем все фотографии
+    specialists = Account.objects.filter(position__isnull=False)
     photogallery = PhotoGallery.objects.all()
-
-    # Выбираем 3 случайные фотографии
     random_photos = random.sample(list(photogallery), 3) if len(photogallery) >= 3 else photogallery
-    return render(request, 'index.html', {'specialists': specialists, 'random_photos': random_photos})
+    latest_comments = Comment.objects.select_related('user').order_by('-created_at')[:6]  # Последние 6 комментариев
+
+    return render(request, 'index.html', {
+        'specialists': specialists,
+        'random_photos': random_photos,
+        'latest_comments': latest_comments
+    })
 
 
 def edit_excel(request, file_id):

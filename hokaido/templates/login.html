@@ -1,12 +1,16 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
+
     <title>Вход | HOKAIDO</title>
 </head>
+
 <body>
     <div class="login-container">
         <h2>Вход в аккаунт</h2>
@@ -15,10 +19,11 @@
             <input type="text" name="username" class="login-input" placeholder="Логин" required>
             <input type="password" name="password" class="login-input" placeholder="Пароль" required>
             {% if form.non_field_errors %}
-                <div class="error">{{ form.non_field_errors }}</div>
+            <div class="error">{{ form.non_field_errors }}</div>
             {% endif %}
             <button type="submit" class="login-button">Войти</button>
         </form>
     </div>
 </body>
+
 </html>
