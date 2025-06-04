@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Собери Гункан | HOKAIDO{% endblock title %}
+
+{% block links %}
+<link rel="stylesheet" href='{% static "css/gunkan_game.css" %}'>
+{% endblock links %}
+
+{% block scripts %}
+<script>
+    const dishes = {{ dishes_json|safe }};
+    const plate = document.getElementById('plate');
+    const plateContent = document.getElementById('plate-content');
+    const result = document.getElementById('result');
+    const placeholder = document.getElementById('plate-placeholder');
+
+    function highlightPlate() {
+        plate.style.borderColor = '#FFAA00';
+        plate.style.boxShadow = '0 10px 20px rgba(255, 170, 0, 0.3)';
+    }
+
+    function unhighlightPlate() {
+        plate.style.borderColor = '#1240AB';
+        plate.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+    }
+
+    document.querySelectorAll('.ingredient').forEach(item => {
+        item.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text/plain', e.target.dataset.name);
+            e.target.style.opacity = '0.5';
+        });
+
+        item.addEventListener('dragend', e => {
+            e.target.style.opacity = '1';
+            unhighlightPlate();
+        });
+    });
+
+    function drop(e) {
+        e.preventDefault();
+        const name = e.dataTransfer.getData('text/plain');
+
+        const div = document.createElement('div');
+        div.className = 'dropped';
+        div.textContent = name;
+        div.draggable = true;
+
+        div.addEventListener('dragstart', function(e) {
+            e.dataTransfer.setData('text/plain', e.target.textContent);
+            setTimeout(() => e.target.style.display = 'none', 0);
+        });
+
+        div.addEventListener('dragend', function(e) {
+            e.target.style.display = '';
+        });
+
+        if (placeholder) placeholder.style.display = 'none';
+        plateContent.appendChild(div);
+        unhighlightPlate();
+
+        // Анимация добавления ингредиента
+        div.style.transform = 'translateY(20px)';
+        div.style.opacity = '0';
+        setTimeout(() => {
+            div.style.transform = 'translateY(0)';
+            div.style.opacity = '1';
+        }, 10);
+    }
+
+    document.getElementById('check-btn').addEventListener('click', () => {
+        const dropped = [...plateContent.querySelectorAll('.dropped')].map(el => el.textContent.trim());
+        
+        let foundDish = null;
+
+        for (const dish of dishes) {
+            // Проверяем точное совпадение последовательности
+            if (JSON.stringify(dish.ingredients) === JSON.stringify(dropped)) {
+                foundDish = dish;
+                break;
+            }
+        }
+
+        if (foundDish) {
+            result.textContent = `✅ Верно! Вы собрали "${foundDish.name}"!`;
+            result.className = 'success';
+            plateContent.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = foundDish.photo;
+            img.alt = foundDish.name;
+            plate.appendChild(img);
+            placeholder.style.display = 'none';
+
+            // Анимация успеха
+            plate.style.animation = 'pulse 0.5s ease';
+        } else {
+            result.textContent = '❌ Неправильный состав. Попробуйте ещё раз!';
+            result.className = 'error';
+
+            // Анимация ошибки
+            plate.style.animation = 'shake 0.5s ease';
+        }
+
+        setTimeout(() => {
+            plate.style.animation = '';
+        }, 500);
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', () => {
+        plateContent.innerHTML = '';
+        if (plate.querySelector('img')) {
+            plate.querySelector('img').remove();
+        }
+        result.textContent = '';
+        result.className = '';
+        placeholder.style.display = 'block';
+        plate.style.animation = '';
+    });
+</script>
+{% endblock scripts %}
+
+{% block content %}
+<div class="container">
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <a href="/main"><b>Главная</b></a> &gt;
+            <a href="/mini-games"><b>Мини-игры</b></a> &gt;
+            <span><b>Собери гункан</b></span>
+        </nav>
+    </div>
+    <div class="container-gunkan">
+        <h1>Собери Гункан</h1>
+
+        <div class="game-container">
+            <div class="ingredients-section">
+                <h3>Ингредиенты</h3>
+                <div class="ingredients">
+                    {% for ing in ingredients %}
+                    <div class="ingredient" draggable="true" data-name="{{ ing }}">{{ ing }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="plate-section">
+                <h3>Ваш гункан</h3>
+                <div class="plate-container">
+                    <div id="plate" ondragover="event.preventDefault()" ondrop="drop(event)"
+                        ondragenter="highlightPlate()" ondragleave="unhighlightPlate()">
+                        <div id="plate-content"></div>
+                        <p id="plate-placeholder">Перетащите ингредиенты сюда</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="buttons">
+            <button id="check-btn" class="btn">Проверить состав</button>
+            <button id="clear-btn" class="btn">Очистить тарелку</button>
+        </div>
+
+        <div id="result"></div>
+    </div>
+</div>
+{% endblock content %}

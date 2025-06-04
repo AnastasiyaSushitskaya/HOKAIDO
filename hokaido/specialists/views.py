@@ -383,3 +383,27 @@ def tea_game(request):
     }
 
     return render(request, 'tea_game.html', context)
+
+
+def gunkan_game(request):
+    types = TypeOfDish.objects.filter(name="Гунканы")
+    dishes = Menu.objects.filter(type_of_dish__in=types)
+
+    ingredient_sets = []
+    all_ingredients = set()
+
+    for dish in dishes:
+        ingredients = [i.strip().capitalize() for i in dish.compound.split(',') if i.strip()]
+        ingredient_sets.append({
+            'name': dish.name,
+            'ingredients': ingredients,
+            'photo': dish.photo.url if dish.photo else None
+        })
+        all_ingredients.update(ingredients)
+
+    context = {
+        'ingredients': sorted(all_ingredients),
+        'dishes_json': json.dumps(ingredient_sets, ensure_ascii=False),
+    }
+
+    return render(request, 'gunkan_game.html', context)
