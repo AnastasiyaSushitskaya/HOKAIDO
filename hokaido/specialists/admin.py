@@ -30,7 +30,7 @@ class AccountAdmin(admin.ModelAdmin):
         }),
         ('Важные даты', {
             'fields': ('last_login', 'date_joined'),
-            'classes': ('collapse',)  # Скрыть по умолчанию
+            'classes': ('collapse',)
         }),
     )
 
@@ -41,9 +41,8 @@ class AccountAdmin(admin.ModelAdmin):
         }),
     )
 
-    readonly_fields = ('last_login', 'date_joined')  # Поля для чтения
+    readonly_fields = ('last_login', 'date_joined')
 
-    # Переопределяем метод сохранения для хэширования паролей
     def save_model(self, request, obj, form, change):
         if form.cleaned_data.get('password') and not obj.pk:
             obj.set_password(form.cleaned_data['password'])
@@ -51,12 +50,12 @@ class AccountAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.select_related('position')  # Оптимизация запросов
+        return qs.select_related('position')
 
     def middle_name(self, obj):
-        return obj.middle_name or 'Не указано'  # Отображение значения по умолчанию
+        return obj.middle_name or 'Не указано'
 
-    middle_name.short_description = 'Отчество'  # Заголовок в админке
+    middle_name.short_description = 'Отчество'
 
 
 class PositionAdmin(admin.ModelAdmin):
@@ -124,13 +123,11 @@ class ExcelFileAdmin(admin.ModelAdmin):
     display_excel_content.short_description = 'Download'
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
-        # Получаем объект ExcelFile
+
         excel_file = self.get_object(request, object_id)
         if request.method == 'POST':
             form = ExcelDataForm(request.POST, excel_file=excel_file)
             if form.is_valid():
-                # Здесь можно обработать данные и сохранить их
-                # Например, перезапись файла с новыми данными
                 pass
         else:
             form = ExcelDataForm(excel_file=excel_file)
@@ -152,4 +149,3 @@ admin.site.register(ExcelFile, ExcelFileAdmin)
 admin.site.register(TestResult, TestResultAdmin)
 admin.site.register(PositionTypeOfDish, PositionTypeOfDishAdmin)
 admin.site.register(Comment, CommentAdmin)
-

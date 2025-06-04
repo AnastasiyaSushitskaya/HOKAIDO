@@ -32,7 +32,7 @@ header {
   margin: 0 auto;
 }
 
-/* Логотип */
+
 .logo {
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@ header {
 }
 
 
-/* Навигация */
+
 nav {
   display: flex;
   gap: 20px;
@@ -70,78 +70,9 @@ nav a:hover {
   transform: scale(1.05);
 }
 
-/* Бургер-меню
-.burger-menu {
-  position: relative;
-}
 
-.burger-toggle {
-  cursor: pointer;
-  padding: 8px 12px;
-  font-size: 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
 
-.burger-toggle:hover {
-  color: #D2FFFB;
-  background-color: #5EAEA7;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05);
-} */
 
-/* Скрыть подпункты по умолчанию */
-/* .burger-links {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #fff;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  padding: 10px;
-  width: 200px;
-  z-index: 1;
-}
-
-.burger-links a {
-  display: block;
-  padding: 10px;
-  text-decoration: none;
-  color: #333;
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.burger-links a:hover {
-  background-color: #5eaea6;
-  color: #D2FFFB;
-} */
-
-/* Показываем подпункты при активации */
-/* .burger-menu.active .burger-links {
-  display: block;
-} */
-
-/* Стрелка */
-/* .arrow {
-  display: inline-block;
-  font-size: 12px;
-  margin-left: 8px;
-  transform: rotate(0deg);
-  transition: transform 0.3s ease;
-} */
-
-/* Поворот стрелки вверх */
-/* .burger-menu.active .arrow {
-  transform: rotate(180deg);
-}
-
-.arrow.rotated {
-  transform: rotate(180deg);
-} */
-
-/* Иконка профиля */
 .profile-icon {
   display: flex;
   flex-direction: column;
@@ -158,7 +89,7 @@ nav a:hover {
   cursor: pointer;
 }
 
-/* Подпись "Личный кабинет" */
+
 .profile-icon .profile-label {
   font-size: 16px;
   font-weight: 500;
@@ -170,7 +101,7 @@ nav a:hover {
   text-align: center;
 }
 
-/* Эффект наведения для подписи */
+
 .profile-icon .profile-label:hover {
   color: #D2FFFB;
   background-color: #1240AB;
@@ -178,7 +109,7 @@ nav a:hover {
 }
 
 
-/* Футер */
+
 footer {
   background-color: #FFAA00;
   padding: 20px 0;
@@ -186,7 +117,7 @@ footer {
   font-family: Arial, sans-serif;
 }
 
-/* Контейнер футера */
+
 .footer-container {
   display: flex;
   justify-content: space-between;
@@ -196,7 +127,7 @@ footer {
   padding: 0 20px;
 }
 
-/* Блок контактов */
+
 .footer-contacts,
 .footer-addresses {
   color: #333;
@@ -208,7 +139,7 @@ footer {
   margin: 5px 0;
 }
 
-/* Блок социальных сетей */
+
 .footer-socials {
   display: flex;
   gap: 15px;
@@ -229,63 +160,63 @@ footer {
 }
 
 
-/* Стили для хлебных крошек */
+
 .breadcrumb {
   font-size: 16px;
   margin: 20px 0;
-  /* Отступ сверху и снизу */
+
   font-family: 'Arial', sans-serif;
   display: flex;
-  /* Используем flex для выравнивания */
+
   align-items: center;
-  /* Выравнивание по центру по вертикали */
+
 }
 
 .container {
   max-width: 1200px;
-  /* Задайте желаемую ширину */
+
   margin: 0 auto;
-  /* Выровнять по центру */
+
   padding: 0 15px;
-  /* Отступы для контента */
+
 }
 
 .breadcrumb a {
   font-size: small;
   color: #A66E00;
-  /* Цвет ссылок */
+
   text-decoration: none;
   font-weight: 500;
   margin-right: 5px;
-  /* Отступ между ссылками */
+
 }
 
 .breadcrumb a:hover {
   text-decoration: none;
-  /* Добавляем подчеркивание при наведении */
+
 }
 
 .breadcrumb span {
   color: #000000;
   font-size: small;
-  /* Цвет текущей страницы */
+
 }
 
-/* Обновленный стиль для контейнера */
+
 .breadcrumb-container {
   display: flex;
   justify-content: flex-start;
-  /* Выровнять по правому краю */
+
   align-items: center;
-  /* Выравнивание по центру по вертикали */
+
   margin-bottom: 5px;
-  /* Отступ от основного блока */
+
   max-width: 1200px;
   width: 100%;
-  /* Занимает всю ширину контейнера */
+
 }
 
-/* разграничитель */
+
 .divider {
   max-width: 1200px;
   height: 5px;
@@ -298,9 +229,9 @@ footer {
   bottom: 40px;
   right: 40px;
   z-index: 1000;
-  background: linear-gradient(135deg, #ffffff, #ffffff); /* Основной синий градиент */
-  color: #000000; /* Цвет текста как у body */
-  border: 2px solid #000000; /* Акцентная оранжевая рамка */
+  background: linear-gradient(135deg, #ffffff, #ffffff);
+  color: #000000;
+  border: 2px solid #000000;
   border-radius: 50%;
   width: 56px;
   height: 56px;
@@ -308,7 +239,7 @@ footer {
   cursor: pointer;
   box-shadow: 
     0 4px 12px rgba(18, 64, 171, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2); /* Двойная тень */
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   opacity: 0;
   pointer-events: none;
   transform: translateY(20px) rotate(90deg);
@@ -340,7 +271,7 @@ footer {
   transform: translateY(0) rotate(0deg);
 }
 
-/* Стилизация иконки */
+
 #scrollToTopBtn::after {
   content: "→";
   display: block;
@@ -354,7 +285,7 @@ footer {
   transform: rotate(0deg);
 }
 
-/* Анимация пульсации для привлечения внимания */
+
 @keyframes pulse {
   0% { box-shadow: 0 0 0 0 rgba(255, 170, 0, 0.4); }
   70% { box-shadow: 0 0 0 10px rgba(255, 170, 0, 0); }

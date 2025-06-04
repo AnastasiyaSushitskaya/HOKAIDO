@@ -14,7 +14,7 @@ class AccountManager(BaseUserManager):
             username = ""
 
         user = self.model(username=username, email=email, **extra_fields)
-        user.set_password(password)  # Хэширование пароля
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
@@ -22,7 +22,6 @@ class AccountManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
-        # Убедитесь, что все обязательные поля установлены
         if extra_fields.get('is_staff') is not True:
             raise ValueError("Superuser must have is_staff=True.")
         if extra_fields.get('is_superuser') is not True:
@@ -52,16 +51,15 @@ class Account(AbstractUser):
 
     objects = AccountManager()
 
-    # Уникальные related_name для групп и разрешений
     groups = models.ManyToManyField(
         Group,
-        related_name='account_set',  # Уникальное имя
+        related_name='account_set',
         blank=True,
         verbose_name="Groups"
     )
     user_permissions = models.ManyToManyField(
         Permission,
-        related_name='account_set',  # Уникальное имя
+        related_name='account_set',
         blank=True,
         verbose_name="User permissions"
     )
@@ -74,7 +72,6 @@ class Account(AbstractUser):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        # full_name = f"{self.last_name} {self.first_name} {self.middle_name or ''}".strip()
         return f'{self.username}'
 
 
@@ -104,7 +101,7 @@ class TypeOfDish(models.Model):
 
 class Checklist(models.Model):
     position = models.ForeignKey(
-        'Position',  # Исправлено на 'Position'
+        'Position',
         on_delete=models.CASCADE,
         verbose_name="Должность",
         related_name="checklists"
@@ -116,7 +113,7 @@ class Checklist(models.Model):
         verbose_name_plural = "Чек-листы"
 
     def __str__(self):
-        return self.position.title  # Исправлено на title, так как __str__ у Position возвращает title
+        return self.position.title
 
 
 class PhotoGallery(models.Model):
@@ -130,14 +127,14 @@ class PhotoGallery(models.Model):
         ordering = ['-date']
 
     def __str__(self):
-        return str(self.date)  # Преобразование даты в строку для отображения
+        return str(self.date)
 
 
 class Menu(models.Model):
     type_of_dish = models.ForeignKey(
         'TypeOfDish',
         on_delete=models.CASCADE,
-        verbose_name="Тип блюда",  # Исправлено на "Тип блюда" вместо "Должность"
+        verbose_name="Тип блюда",
         related_name="menus"
     )
     name = models.CharField(max_length=200, unique=True, verbose_name="Название")
@@ -154,7 +151,7 @@ class Menu(models.Model):
 
 class TestResult(models.Model):
     user = models.ForeignKey(
-        'Account',  # Или 'Account' если у вас кастомная модель
+        'Account',
         on_delete=models.CASCADE,
         verbose_name="Пользователь"
     )
@@ -235,7 +232,6 @@ class ExcelFile(models.Model):
         return self.file.name
 
     def get_excel_data(self):
-        # Чтение данных из Excel файла
         file_path = self.file.path
         df = pd.read_excel(file_path)
         return df
@@ -250,5 +246,5 @@ class ExcelDataForm(forms.Form):
 
         if excel_file:
             df = excel_file.get_excel_data()
-            # Преобразование данных DataFrame в строку для текстового поля
+
             self.fields['data'].initial = df.to_string(index=False)

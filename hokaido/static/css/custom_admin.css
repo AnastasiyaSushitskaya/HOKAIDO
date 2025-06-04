@@ -1,11 +1,11 @@
-/* Общие настройки */
+
 body {
     background-color: #FFF9E6;
     font-family: "Segoe UI", sans-serif;
     color: #333;
 }
 
-/* Верхняя панель */
+
 #header {
     background-color: #3489f1;
     padding: 10px;
@@ -17,7 +17,7 @@ body {
     text-decoration: none;
 }
 
-/* Левое меню */
+
 #nav-sidebar {
     background-color: #ffffff;
     border-right: 1px solid #FFAA00;
@@ -46,7 +46,7 @@ body {
     color: white;
 }
 
-/* Основной контент */
+
 #content {
     background-color: white;
     border-radius: 16px;
@@ -55,7 +55,7 @@ body {
     box-shadow: 0 0 10px rgba(18, 64, 171, 0.1);
 }
 
-/* Кнопки */
+
 button,
 input[type=submit],
 .button {
@@ -76,7 +76,7 @@ input[type=submit]:hover,
     color: white;
 }
 
-/* Формы */
+
 input, select, textarea {
     border: 1px solid #FFAA00;
     border-radius: 6px;
@@ -89,7 +89,7 @@ input, select, textarea {
     margin-bottom: 12px;
 }
 
-/* Таблицы */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -123,7 +123,7 @@ table tr {
     border-radius: 8px;
 }
 
-/* Сообщения */
+
 .messagelist .success {
     background-color: #3489f1;
     color: white;
@@ -140,7 +140,7 @@ table tr {
     margin-bottom: 20px;
 }
 
-/* Страница входа */
+
 .login {
     background-color: #FFF9E6;
 }
@@ -152,12 +152,12 @@ table tr {
     box-shadow: 0 0 12px rgba(0,0,0,0.05);
 }
 
-/* Скрыть кнопку смены темы */
+
 .theme-toggle {
     display: none !important;
 }
 
-/* Тулбар */
+
 #toolbar {
     background-color: rgba(255, 170, 0, 0.1);
     border-bottom: 1px solid #FFAA00;
@@ -168,7 +168,7 @@ table tr {
     justify-content: flex-start;
 }
 
-/* Поиск */
+
 #changelist-search {
     display: flex;
     align-items: center;
@@ -212,7 +212,7 @@ table tr {
     cursor: not-allowed;
 }
 
-/* Блок действий */
+
 #changelist .actions {
     padding: 0 10px;
     padding-bottom: 3px;
@@ -271,7 +271,6 @@ table tr {
     color: #666;
 }
 
-/* Мобильная версия */
 @media (max-width: 600px) {
     .actions {
         flex-direction: column;

@@ -1,4 +1,4 @@
-/* static/css/tests/results.css */
+
 
 .container {
     max-width: 800px;
@@ -13,7 +13,7 @@
 }
 
 h1 {
-    color: #1240AB; /* Синий */
+    color: #1240AB;
     text-align: center;
     margin-bottom: 30px;
     font-size: 2.2rem;
@@ -36,11 +36,11 @@ h1::after {
     padding: 30px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     text-align: center;
-    border: 1px solid #D2FFFB; /* Бирюзовый акцент */
+    border: 1px solid #D2FFFB;
 }
 
 .result-card h2 {
-    color: #1240AB; /* Синий */
+    color: #1240AB;
     margin-bottom: 20px;
     font-size: 1.8rem;
 }
@@ -56,13 +56,13 @@ h1::after {
     font-size: 1.5rem;
     margin: 25px 0;
     padding: 15px;
-    background-color: #F8FAFF; /* Светло-синий фон */
+    background-color: #F8FAFF;
     border-radius: 8px;
     display: inline-block;
 }
 
 .score strong {
-    color: #FFAA00; /* Оранжевый */
+    color: #FFAA00;
     font-size: 1.8rem;
 }
 
@@ -70,7 +70,7 @@ h1::after {
     display: inline-block;
     margin-top: 25px;
     padding: 12px 30px;
-    background-color: #FFAA00; /* Оранжевый */
+    background-color: #FFAA00;
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -83,12 +83,11 @@ h1::after {
 }
 
 .btn:hover {
-    background-color: #1240AB; /* Синий */
+    background-color: #1240AB;
     transform: translateY(-2px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Адаптивность */
 @media (max-width: 600px) {
     .container {
         padding: 15px;

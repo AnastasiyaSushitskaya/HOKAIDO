@@ -1,4 +1,4 @@
-/* Основные стили */
+
 body {
     background-color: #FFF9E6;
 }
@@ -12,7 +12,7 @@ body {
 }
 
 
-/* Заголовок */
+
 .account-title {
     font-family: 'Montserrat', sans-serif;
     font-size: 2.5rem;
@@ -33,7 +33,7 @@ body {
     border-radius: 2px;
 }
 
-/* Табы */
+
 .tabs {
     display: flex;
     margin-bottom: 30px;
@@ -73,7 +73,7 @@ body {
     background: rgba(255, 170, 0, 0.1);
 }
 
-/* Контент табов */
+
 .tab-content {
     display: none;
     animation: fadeIn 0.5s ease;
@@ -95,7 +95,7 @@ body {
     }
 }
 
-/* Статистика */
+
 .stats-grid {
     background: white;
     border-radius: 12px;
@@ -141,7 +141,7 @@ body {
     font-size: 1.1rem;
 }
 
-/* Настройки */
+
 .settings-options {
     background: white;
     border-radius: 12px;
@@ -199,7 +199,7 @@ body {
     background: rgba(217, 83, 79, 0.05);
 }
 
-/* Адаптивность */
+
 @media (max-width: 768px) {
 
     .stats-header,
@@ -243,7 +243,7 @@ body {
     }
 }
 
-/* Форма смены пароля */
+
 .password-change-form, .password-change-success {
     max-width: 600px;
     margin: 0 auto;
@@ -330,7 +330,7 @@ body {
     box-shadow: 0 5px 15px rgba(18, 64, 171, 0.2);
 }
 
-/* Сообщения об ошибках */
+
 .form-errors {
     background: rgba(217, 83, 79, 0.1);
     border-left: 4px solid #d9534f;
@@ -344,7 +344,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* Страница успешной смены пароля */
+
 .password-change-success {
     text-align: center;
 }
@@ -381,13 +381,12 @@ body {
     color: white;
 }
 
-/* Стили для кнопки комментария */
+
 .settings-button.comment-button {
     background: white;
     color: #333;
 }
 
-/* Стили модального окна */
 .modal {
     display: none;
     position: fixed;

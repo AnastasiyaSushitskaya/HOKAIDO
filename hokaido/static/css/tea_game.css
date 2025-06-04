@@ -226,12 +226,12 @@ h1::after {
     background: white;
     border-radius: 10px;
     display: block;
-    /* Изменено с inline-block на block */
+
     max-width: 80%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: fit-content;
-    /* Добавлено для правильного центрирования */
+
 }
 
 .success {
@@ -294,7 +294,7 @@ h1::after {
     }
 }
 
-/* Анимации */
+
 @keyframes shake {
 
     0%,

@@ -30,7 +30,6 @@ function handleGuessDishGame() {
             userAnswerInput.value = selectedAnswer;
             nextBtn.disabled = false;
             
-            // Показываем правильный ответ
             buttons.forEach(btn => {
                 btn.classList.toggle('show-correct', btn.dataset.answer === correctAnswer);
             });
@@ -45,18 +44,16 @@ function handleGuessDishGame() {
     nextBtn.addEventListener('click', function() {
         if (!selectedAnswer) return;
         
-        confirmedInput.value = 'true'; // Подтверждаем отправку
+        confirmedInput.value = 'true';
         buttons.forEach(btn => btn.disabled = true);
         nextBtn.disabled = true;
         
-        // Задержка для визуального подтверждения
         setTimeout(() => {
             form.submit();
         }, 500);
     });
 }
 
-// Инициализация
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', handleGuessDishGame);
 } else {

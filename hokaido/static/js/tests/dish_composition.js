@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (!form || !checkboxes.length || !submitBtn || !feedback) return;
 
-    // Активируем кнопку, если выбран хотя бы один чекбокс
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             submitBtn.disabled = !Array.from(checkboxes).some(cb => cb.checked);
@@ -14,11 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     submitBtn.addEventListener('click', function() {
-        // Блокируем интерфейс
         checkboxes.forEach(cb => cb.disabled = true);
         submitBtn.disabled = true;
 
-        // Отправляем форму
         form.submit();
     });
 });

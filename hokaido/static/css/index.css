@@ -102,7 +102,7 @@ body {
 }
 
 
-/* Контейнер для галереи */
+
 .photo-gallery {
     display: flex;
     flex-wrap: wrap;
@@ -110,7 +110,7 @@ body {
     justify-content: center;
 }
 
-/* Стили для отдельных фотографий */
+
 .photo-item {
     width: 30%;
     max-width: 300px;
@@ -127,7 +127,7 @@ body {
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Стили для изображения */
+
 .photo-image {
     width: 100%;
     height: auto;
@@ -135,7 +135,7 @@ body {
     margin-bottom: 10px;
 }
 
-/* Описание под изображением */
+
 .photo-item p {
     font-size: 1rem;
     color: #333;
@@ -143,7 +143,7 @@ body {
     margin: 0;
 }
 
-/* Стили секции комментариев */
+
 .comments-section {
     margin: 40px 0;
     padding: 0 20px;
@@ -227,7 +227,7 @@ h2::after {
     font-style: italic;
 }
 
-/* Адаптивность */
+
 @media (max-width: 768px) {
     .comments-grid {
         grid-template-columns: 1fr;

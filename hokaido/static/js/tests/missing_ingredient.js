@@ -18,25 +18,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     buttons.forEach(button => {
         button.addEventListener('click', function() {
-            // Сброс предыдущего выбора
             buttons.forEach(btn => {
                 btn.classList.remove('selected', 'correct', 'incorrect');
             });
 
-            // Установка нового выбора
             selectedAnswer = this.dataset.answer;
             answerInput.value = selectedAnswer;
             this.classList.add('selected');
             nextBtn.disabled = false;
 
-            // Подсветка правильного ответа
             buttons.forEach(btn => {
                 if (btn.dataset.answer === correctAnswer) {
                     btn.classList.add('correct-answer');
                 }
             });
 
-            // Показ результата
             if (selectedAnswer === correctAnswer) {
                 feedback.textContent = 'Правильно! Нажмите "Далее"';
                 feedback.className = 'quiz-feedback correct';
@@ -50,11 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
     nextBtn.addEventListener('click', function() {
         if (!selectedAnswer) return;
         
-        // Блокировка интерфейса
         buttons.forEach(btn => btn.disabled = true);
         nextBtn.disabled = true;
         
-        // Задержка перед отправкой
         setTimeout(() => {
             form.submit();
         }, 500);

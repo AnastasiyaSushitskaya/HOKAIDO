@@ -81,7 +81,7 @@
     }
 }
 
-/* Стили для кнопок и навигации */
+
 .quiz-navigation {
     margin-top: 20px;
     text-align: center;
@@ -109,7 +109,7 @@
     transform: translateY(-2px);
 }
 
-/* Стили для выбранных ответов */
+
 .option-btn.selected {
     transform: scale(1.05);
     box-shadow: 0 0 0 3px rgba(255,170,0,0.5);
@@ -120,7 +120,7 @@
     color: white;
 }
 
-/* Анимации для перехода */
+
 .quiz-feedback.correct {
     background-color: #d4edda;
     color: #155724;

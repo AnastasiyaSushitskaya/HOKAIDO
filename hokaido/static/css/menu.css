@@ -1,4 +1,4 @@
-/* Основные стили */
+
 body {
     background-color: #FFF9E6;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -33,7 +33,7 @@ h1::after {
     border-radius: 2px;
 }
 
-/* Стили для категорий блюд */
+
 .type-of-dish {
     margin-bottom: 30px;
     background: white;
@@ -72,7 +72,7 @@ h1::after {
     border-bottom: 1px solid rgba(0, 50, 104, 0.1);
 }
 
-/* Стили для кнопки переключения */
+
 .toggle-button {
     display: inline-block;
     width: 24px;
@@ -90,7 +90,7 @@ h1::after {
     color: #003268;
 }
 
-/* Анимация для элементов меню */
+
 .menu-items {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
@@ -113,7 +113,7 @@ h1::after {
                 padding 0.6s ease;
 }
 
-/* Стили для карточек блюд */
+
 .menu-item {
     background: white;
     border-radius: 10px;
@@ -175,7 +175,7 @@ h1::after {
     line-height: 1.5;
 }
 
-/* Анимация появления категорий */
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -198,7 +198,7 @@ h1::after {
 .type-of-dish:nth-child(4) { animation-delay: 0.4s; }
 .type-of-dish:nth-child(5) { animation-delay: 0.5s; }
 
-/* Адаптивность */
+
 @media (max-width: 768px) {
     .menu-items {
         grid-template-columns: 1fr;
