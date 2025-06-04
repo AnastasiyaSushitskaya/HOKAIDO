@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Собери Напиток | HOKAIDO{% endblock title %}
+
+{% block links %}
+<link rel="stylesheet" href='{% static "css/tea_game.css" %}'>
+{% endblock links %}
+
+{% block scripts %}
+<script>
+    const dishes = {{ dishes_json| safe }};
+    const glass = document.getElementById('glass');
+    const glassContent = document.getElementById('glass-content');
+    const result = document.getElementById('result');
+    const placeholder = document.getElementById('glass-placeholder');
+
+    function highlightGlass() {
+        glass.style.borderColor = '#FFAA00';
+        glass.style.boxShadow = '0 10px 20px rgba(255, 170, 0, 0.3)';
+    }
+
+    function unhighlightGlass() {
+        glass.style.borderColor = '#1240AB';
+        glass.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+    }
+
+    document.querySelectorAll('.ingredient').forEach(item => {
+        item.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text/plain', e.target.dataset.name);
+            e.target.style.opacity = '0.5';
+        });
+
+        item.addEventListener('dragend', e => {
+            e.target.style.opacity = '1';
+            unhighlightGlass();
+        });
+    });
+
+    function drop(e) {
+        e.preventDefault();
+        const name = e.dataTransfer.getData('text/plain');
+
+        const div = document.createElement('div');
+        div.className = 'dropped';
+        div.textContent = name;
+        div.draggable = true;
+
+        div.addEventListener('dragstart', function (e) {
+            e.dataTransfer.setData('text/plain', e.target.textContent);
+            setTimeout(() => e.target.style.display = 'none', 0);
+        });
+
+        div.addEventListener('dragend', function (e) {
+            e.target.style.display = '';
+        });
+
+        if (placeholder) placeholder.style.display = 'none';
+        glassContent.appendChild(div);
+        unhighlightGlass();
+
+        // Анимация добавления ингредиента
+        div.style.transform = 'translateY(20px)';
+        div.style.opacity = '0';
+        setTimeout(() => {
+            div.style.transform = 'translateY(0)';
+            div.style.opacity = '1';
+        }, 10);
+    }
+
+    document.getElementById('check-btn').addEventListener('click', () => {
+        const dropped = [...glassContent.querySelectorAll('.dropped')].map(el => el.textContent.trim());
+
+        let foundDish = null;
+
+        for (const dish of dishes) {
+            const required = dish.ingredients;
+            if (required.length === dropped.length && required.every(i => dropped.includes(i))) {
+                foundDish = dish;
+                break;
+            }
+        }
+
+        if (foundDish) {
+            result.textContent = `✅ Верно! Вы приготовили "${foundDish.name}"!`;
+            result.className = 'success';
+            glassContent.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = foundDish.photo;
+            img.alt = foundDish.name;
+            glass.appendChild(img);
+            placeholder.style.display = 'none';
+
+            // Анимация успеха
+            glass.style.animation = 'pulse 0.5s ease';
+        } else {
+            result.textContent = '❌ Неправильный рецепт. Попробуйте ещё раз!';
+            result.className = 'error';
+
+            // Анимация ошибки
+            glass.style.animation = 'shake 0.5s ease';
+        }
+
+        setTimeout(() => {
+            glass.style.animation = '';
+        }, 500);
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', () => {
+        glassContent.innerHTML = '';
+        if (glass.querySelector('img')) {
+            glass.querySelector('img').remove();
+        }
+        result.textContent = '';
+        result.className = '';
+        placeholder.style.display = 'block';
+        glass.style.animation = '';
+    });
+</script>
+{% endblock scripts %}
+
+
+{% block content %}
+<div class="container">
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <a href="/main"><b>Главная</b></a> &gt;
+            <a href="/mini-games"><b>Мини-игры</b></a> &gt;
+            <span><b>Собери напиток</b></span>
+        </nav>
+    </div>
+    <div class="container-teagame">
+        <h1>Собери Напиток</h1>
+
+        <div class="game-container">
+            <div class="ingredients-section">
+                <h3>Ингредиенты</h3>
+                <div class="ingredients">
+                    {% for ing in ingredients %}
+                    <div class="ingredient" draggable="true" data-name="{{ ing }}">{{ ing }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="glass-section">
+                <h3>Ваш напиток</h3>
+                <div class="glass-container">
+                    <div id="glass" ondragover="event.preventDefault()" ondrop="drop(event)"
+                        ondragenter="highlightGlass()" ondragleave="unhighlightGlass()">
+                        <div id="glass-content"></div>
+                        <p id="glass-placeholder">Перетащите ингредиенты сюда</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="buttons">
+            <button id="check-btn" class="btn">Проверить рецепт</button>
+            <button id="clear-btn" class="btn">Очистить стакан</button>
+        </div>
+
+        <div id="result"></div>
+    </div>
+</div>
+
+{% endblock content %}

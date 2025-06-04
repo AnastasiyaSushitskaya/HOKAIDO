@@ -26,6 +26,7 @@ urlpatterns = [
                        name='dish_composition_test'),
                   path('test/process-dish-composition/<int:dish_type_id>/', views.process_dish_composition,
                        name='process_dish_composition'),
+                  path('test/tea-game', views.tea_game, name='tea_game'),
 
                   path('specialists/', views.specialists_view, name='specialists'),
                   path('clue/', views.clue_view, name='clue'),

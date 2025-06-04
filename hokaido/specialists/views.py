@@ -1,7 +1,7 @@
 import random
 from random import sample, shuffle
 from django.shortcuts import render, redirect, get_object_or_404
-
+import json
 from .forms import CommentForm
 from .models import ExcelFile, Account, PhotoGallery, TypeOfDish, Position, Checklist, Menu, TestResult, \
     PositionTypeOfDish, Comment
@@ -395,3 +395,29 @@ def edit_excel(request, file_id):
         'data': df.values.tolist(),  # Преобразуем DataFrame в список для передачи в шаблон
     }
     return render(request, 'edit_excel.html', context)
+
+
+def tea_game(request):
+    # Фильтруем нужные типы
+    types = TypeOfDish.objects.filter(name__in=["Молочные чаи", "Фруктовые чаи"])
+    dishes = Menu.objects.filter(type_of_dish__in=types)
+
+    ingredient_sets = []
+    all_ingredients = set()
+
+    # Парсим ингредиенты из поля compound
+    for dish in dishes:
+        ingredients = [i.strip().capitalize() for i in dish.compound.split(',') if i.strip()]
+        ingredient_sets.append({
+            'name': dish.name,
+            'ingredients': ingredients,
+            'photo': dish.photo.url if dish.photo else None
+        })
+        all_ingredients.update(ingredients)
+
+    context = {
+        'ingredients': sorted(all_ingredients),
+        'dishes_json': json.dumps(ingredient_sets, ensure_ascii=False),
+    }
+
+    return render(request, 'tea_game.html', context)
