@@ -1,0 +1,129 @@
+.schedule-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #1240AB;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-info p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.excel-container {
+    margin-top: 20px;
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    color: #1240AB;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+h1::after {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #FFAA00, #1240AB);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.excel-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+}
+
+.excel-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    min-width: auto;
+    color: #333;
+}
+
+.excel-table tr:first-child,
+.excel-table tr:nth-child(2) {
+    background-color: #1240AB;
+    color: white;
+    font-weight: bold;
+}
+
+.excel-table tr:nth-child(3),
+.excel-table tr:nth-child(7),
+.excel-table tr:nth-child(11),
+.excel-table tr:nth-child(15) {
+    background-color: #FFE473;
+    font-weight: bold;
+    color: #1240AB;
+}
+
+.excel-table tr:nth-child(even):not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(7)):not(:nth-child(11)):not(:nth-child(15)) {
+    background-color: #f8f9fa;
+}
+
+.excel-table tr:hover {
+    background-color: rgba(18, 64, 171, 0.1);
+}
+
+.download-buttons {
+    margin-top: 20px;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.download-buttons .btn {
+    background-color: #1240AB;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.download-buttons .btn:hover {
+    background-color: #0d2e7a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .excel-container {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .excel-table td {
+        padding: 8px;
+    }
+
+    .schedule-info {
+        padding: 10px;
+    }
+
+    .schedule-info p {
+        font-size: 14px;
+    }
+
+    .download-buttons .btn {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+}

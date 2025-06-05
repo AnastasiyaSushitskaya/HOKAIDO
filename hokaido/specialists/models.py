@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager, Group, Per
 from django.db import models
 from django import forms
 import pandas as pd
+import html
+
 
 
 class AccountManager(BaseUserManager):
@@ -235,6 +237,29 @@ class ExcelFile(models.Model):
         file_path = self.file.path
         df = pd.read_excel(file_path)
         return df
+
+    def get_html_table(self):
+        df = self.get_excel_data()
+
+        df = df.fillna('')
+
+        html_table = '<table class="excel-table">'
+
+        for i in range(len(df)):
+            html_table += '<tr>'
+            for j in range(len(df.columns)):
+                cell_value = df.iloc[i, j]
+                cell_value = html.escape(str(cell_value))
+
+                cell_style = ''
+                if i < 2:
+                    cell_style = 'font-weight: bold; background-color: #f2f2f2;'
+
+                html_table += f'<td style="{cell_style}">{cell_value}</td>'
+            html_table += '</tr>'
+
+        html_table += '</table>'
+        return html_table
 
 
 class ExcelDataForm(forms.Form):

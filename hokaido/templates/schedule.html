@@ -3,6 +3,9 @@
 
 {% block title %}График | HOKAIDO{% endblock title %}
 
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/schedule.css' %}">
+{% endblock links %}
 
 {% block content %}
 <div class="container">
@@ -11,6 +14,28 @@
             <a href="/main"><b>Главная</b></a> &gt; <span><b>График</b></span>
         </nav>
     </div>
-<h1>Тут будет график</h1>
+    
+    <h1>График работы сотрудников</h1>
+    
+    {% if last_file %}
+        <div class="schedule-info">
+            <p>Файл: <strong>{{ last_file.file.name|cut:"excel_files/" }}</strong></p>
+            <p>Загружен: <strong>{{ last_file.uploaded_at|date:"d.m.Y H:i" }}</strong></p>
+        </div>
+        
+        <div class="excel-container">
+            {{ last_file.get_html_table|safe }}
+        </div>
+        
+        <div class="download-buttons">
+            <a href="{{ last_file.file.url }}" class="btn btn-primary" download>
+                <i class="fas fa-file-excel"></i> Скачать Excel
+            </a>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            Нет доступных графиков. Пожалуйста, загрузите файл с графиком.
+        </div>
+    {% endif %}
 </div>
 {% endblock content %}
