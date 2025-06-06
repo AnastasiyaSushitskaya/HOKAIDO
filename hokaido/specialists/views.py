@@ -16,7 +16,9 @@ def login_view(request):
 
 
 def schedule_view(request):
-    return render(request, "schedule.html")
+    last_file = ExcelFile.objects.last()
+
+    return render(request, 'schedule.html', {'last_file': last_file})
 
 
 def menu_view(request):
