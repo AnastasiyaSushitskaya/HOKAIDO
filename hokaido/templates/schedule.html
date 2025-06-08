@@ -37,5 +37,23 @@
             Нет доступных графиков. Пожалуйста, загрузите файл с графиком.
         </div>
     {% endif %}
+
+    <!-- Секция комментариев -->
+    <div class="comments-section">
+        <h2>Последние отзывы</h2>
+        <div class="comments-grid">
+            {% for comment in latest_comments %}
+            <div class="comment-card">
+                <div class="comment-header">
+                    <div class="comment-user">{{ comment.user.username }}</div>
+                    <div class="comment-date">{{ comment.created_at|date:"d.m.Y" }}</div>
+                </div>
+                <div class="comment-text">{{ comment.text|truncatechars:100 }}</div>
+            </div>
+            {% empty %}
+            <div class="no-comments">Пока нет отзывов. Будьте первым!</div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock content %}

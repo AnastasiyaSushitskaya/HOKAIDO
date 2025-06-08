@@ -5,7 +5,6 @@ import pandas as pd
 import html
 
 
-
 class AccountManager(BaseUserManager):
     def create_user(self, username=None, email=None, password=None, **extra_fields):
         if not email:
@@ -229,6 +228,10 @@ class Comment(models.Model):
 class ExcelFile(models.Model):
     file = models.FileField(upload_to='excel_files/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Файл с графиком"
+        verbose_name_plural = "Файлы с графиком"
 
     def __str__(self):
         return self.file.name

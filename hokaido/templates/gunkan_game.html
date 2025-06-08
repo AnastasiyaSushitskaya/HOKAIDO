@@ -10,10 +10,17 @@
 {% block scripts %}
 <script>
     const dishes = {{ dishes_json|safe }};
+    const targetDish = {{ target_dish_json|safe }};
     const plate = document.getElementById('plate');
     const plateContent = document.getElementById('plate-content');
     const result = document.getElementById('result');
     const placeholder = document.getElementById('plate-placeholder');
+    const targetDisplay = document.getElementById('target-display');
+
+    // Показываем цель игры
+    if (targetDish) {
+        targetDisplay.textContent = `Соберите гункан: ${targetDish.name}`;
+    }
 
     function highlightPlate() {
         plate.style.borderColor = '#FFAA00';
@@ -69,30 +76,32 @@
     }
 
     document.getElementById('check-btn').addEventListener('click', () => {
-        const dropped = [...plateContent.querySelectorAll('.dropped')].map(el => el.textContent.trim());
-        
-        let foundDish = null;
-
-        for (const dish of dishes) {
-            // Проверяем точное совпадение последовательности
-            if (JSON.stringify(dish.ingredients) === JSON.stringify(dropped)) {
-                foundDish = dish;
-                break;
-            }
+        if (!targetDish) {
+            result.textContent = 'Ошибка: гункан для сборки не выбран';
+            result.className = 'error';
+            return;
         }
 
-        if (foundDish) {
-            result.textContent = `✅ Верно! Вы собрали "${foundDish.name}"!`;
+        const dropped = [...plateContent.querySelectorAll('.dropped')].map(el => el.textContent.trim());
+        
+        // Проверяем точное совпадение последовательности с целевым гунканом
+        const correct = JSON.stringify(targetDish.ingredients) === JSON.stringify(dropped);
+
+        if (correct) {
+            result.textContent = `✅ Верно! Вы правильно собрали "${targetDish.name}"!`;
             result.className = 'success';
             plateContent.innerHTML = '';
             const img = document.createElement('img');
-            img.src = foundDish.photo;
-            img.alt = foundDish.name;
+            img.src = targetDish.photo;
+            img.alt = targetDish.name;
             plate.appendChild(img);
             placeholder.style.display = 'none';
 
             // Анимация успеха
             plate.style.animation = 'pulse 0.5s ease';
+            
+            // Показываем кнопку для нового задания
+            document.getElementById('new-task-btn').style.display = 'inline-block';
         } else {
             result.textContent = '❌ Неправильный состав. Попробуйте ещё раз!';
             result.className = 'error';
@@ -116,6 +125,10 @@
         placeholder.style.display = 'block';
         plate.style.animation = '';
     });
+
+    document.getElementById('new-task-btn').addEventListener('click', () => {
+        location.reload(); // Просто перезагружаем страницу для нового задания
+    });
 </script>
 {% endblock scripts %}
 
@@ -130,6 +143,8 @@
     </div>
     <div class="container-gunkan">
         <h1>Собери Гункан</h1>
+        
+        <div id="target-display" class="target-display"></div>
 
         <div class="game-container">
             <div class="ingredients-section">
@@ -156,6 +171,7 @@
         <div id="buttons">
             <button id="check-btn" class="btn">Проверить состав</button>
             <button id="clear-btn" class="btn">Очистить тарелку</button>
+            <button id="new-task-btn" class="btn" style="display:none;">Новый гункан</button>
         </div>
 
         <div id="result"></div>
