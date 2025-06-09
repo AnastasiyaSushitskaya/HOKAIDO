@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Результаты тестов | HOKAIDO{% endblock title %}
+
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/test_results.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="test-results-container">
+    <div class="breadcrumb-container">
+        <nav class="breadcrumb">
+            <a href="/main"><b>Главная</b></a> &gt; <span><b>Результаты тестов</b></span>
+        </nav>
+    </div>
+
+    <!-- Заголовок -->
+    <div class="page-header">
+        <h1>Результаты тестов</h1>
+        <p class="subtitle">Просмотр статистики и результатов пройденных тестов</p>
+    </div>
+
+    <!-- Фильтры -->
+    <div class="filters-card">
+        <h2 class="section-title">Фильтры</h2>
+        <form method="get" class="filter-form">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="user" class="filter-label">Пользователь</label>
+                    <select id="user" name="user" class="filter-select">
+                        <option value="">Все пользователи</option>
+                        {% for user in users %}
+                        <option value="{{ user.id }}" {% if request.GET.user == user.id|stringformat:"s" %}selected{% endif %}>{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="test_type" class="filter-label">Тип теста</label>
+                    <select id="test_type" name="test_type" class="filter-select">
+                        <option value="">Все типы тестов</option>
+                        {% for type in test_types %}
+                        <option value="{{ type }}" {% if request.GET.test_type == type %}selected{% endif %}>{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="filter-button">Применить фильтры</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Таблица результатов -->
+    <div class="results-card">
+        <h2 class="section-title">Результаты</h2>
+        <div class="table-responsive">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th class="user-col">Пользователь</th>
+                        <th class="type-col">Тип теста</th>
+                        <th class="dish-col">Тип блюда</th>
+                        <th class="result-col">Результат</th>
+                        <th class="progress-col">Успешность</th>
+                        <th class="date-col">Дата</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in test_results %}
+                    <tr>
+                        <td>{{ result.user.username }}</td>
+                        <td>{{ result.test_type }}</td>
+                        <td>{{ result.dish_type.name }}</td>
+                        <td>{{ result.correct }} из {{ result.total }}</td>
+                        <td>
+                            {% widthratio result.correct result.total 100 as percentage %}
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: {{ percentage }}%; 
+                                    {% if percentage >= 70 %}background-color: #4CAF50;
+                                    {% elif percentage >= 40 %}background-color: #FFC107;
+                                    {% else %}background-color: #F44336;{% endif %}">
+                                </div>
+                                <span class="percentage">{{ percentage|floatformat:0 }}%</span>
+                            </div>
+                        </td>
+                        <td>{{ result.date_completed|date:"d.m.Y H:i" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="no-results">Нет результатов, соответствующих фильтрам</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

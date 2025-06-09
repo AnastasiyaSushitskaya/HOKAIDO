@@ -10,6 +10,8 @@ urlpatterns = [
                   path('schedule/', views.schedule_view, name='schedule'),
                   path('menu/', views.menu_view, name='menu'),
 
+                  path('test-results/', views.test_results_view, name='test_results'),
+
                   path('mini-games/', views.mini_games_view, name='mini_games'),
 
                   path('test/guess-dish/<int:dish_type_id>/', views.guess_dish_test, name='guess_dish_test'),
