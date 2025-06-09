@@ -338,3 +338,14 @@ h1::after {
         opacity: 0;
     }
 }
+
+.target-display {
+    font-size: 1.5em;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    color: #1240AB;
+}

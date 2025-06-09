@@ -17,8 +17,13 @@ def login_view(request):
 
 def schedule_view(request):
     last_file = ExcelFile.objects.last()
+    latest_comments = Comment.objects.select_related('user').order_by('-created_at')[:6]
 
-    return render(request, 'schedule.html', {'last_file': last_file})
+    context = {
+        'last_file': last_file,
+        'latest_comments': latest_comments
+    }
+    return render(request, 'schedule.html', context)
 
 
 def menu_view(request):
@@ -335,12 +340,10 @@ def index(request):
     specialists = Account.objects.filter(position__isnull=False)
     photogallery = PhotoGallery.objects.all()
     random_photos = random.sample(list(photogallery), 3) if len(photogallery) >= 3 else photogallery
-    latest_comments = Comment.objects.select_related('user').order_by('-created_at')[:6]
 
     return render(request, 'index.html', {
         'specialists': specialists,
         'random_photos': random_photos,
-        'latest_comments': latest_comments
     })
 
 
@@ -379,9 +382,13 @@ def tea_game(request):
         })
         all_ingredients.update(ingredients)
 
+    target_dish = random.choice(ingredient_sets) if ingredient_sets else None
+
     context = {
         'ingredients': sorted(all_ingredients),
         'dishes_json': json.dumps(ingredient_sets, ensure_ascii=False),
+        'target_dish': target_dish,
+        'target_dish_json': json.dumps(target_dish, ensure_ascii=False) if target_dish else None,
     }
 
     return render(request, 'tea_game.html', context)
@@ -403,9 +410,14 @@ def gunkan_game(request):
         })
         all_ingredients.update(ingredients)
 
+    # Выбираем случайный гункан для задания
+    target_dish = random.choice(ingredient_sets) if ingredient_sets else None
+
     context = {
         'ingredients': sorted(all_ingredients),
         'dishes_json': json.dumps(ingredient_sets, ensure_ascii=False),
+        'target_dish': target_dish,
+        'target_dish_json': json.dumps(target_dish, ensure_ascii=False) if target_dish else None,
     }
 
     return render(request, 'gunkan_game.html', context)

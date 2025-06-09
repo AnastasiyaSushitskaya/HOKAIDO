@@ -10,10 +10,17 @@
 {% block scripts %}
 <script>
     const dishes = {{ dishes_json| safe }};
+    const targetDish = {{ target_dish_json| safe }};
     const glass = document.getElementById('glass');
     const glassContent = document.getElementById('glass-content');
     const result = document.getElementById('result');
     const placeholder = document.getElementById('glass-placeholder');
+    const targetDisplay = document.getElementById('target-display');
+
+    // Показываем цель игры
+    if (targetDish) {
+        targetDisplay.textContent = `Соберите напиток: ${targetDish.name}`;
+    }
 
     function highlightGlass() {
         glass.style.borderColor = '#FFAA00';
@@ -69,30 +76,35 @@
     }
 
     document.getElementById('check-btn').addEventListener('click', () => {
-        const dropped = [...glassContent.querySelectorAll('.dropped')].map(el => el.textContent.trim());
-
-        let foundDish = null;
-
-        for (const dish of dishes) {
-            const required = dish.ingredients;
-            if (required.length === dropped.length && required.every(i => dropped.includes(i))) {
-                foundDish = dish;
-                break;
-            }
+        if (!targetDish) {
+            result.textContent = 'Ошибка: напиток для сборки не выбран';
+            result.className = 'error';
+            return;
         }
 
-        if (foundDish) {
-            result.textContent = `✅ Верно! Вы приготовили "${foundDish.name}"!`;
+        const dropped = [...glassContent.querySelectorAll('.dropped')].map(el => el.textContent.trim());
+        const required = targetDish.ingredients;
+
+        // Проверяем, совпадают ли ингредиенты (порядок не важен)
+        const correct = required.length === dropped.length && 
+                        required.every(i => dropped.includes(i)) && 
+                        dropped.every(i => required.includes(i));
+
+        if (correct) {
+            result.textContent = `✅ Верно! Вы правильно собрали "${targetDish.name}"!`;
             result.className = 'success';
             glassContent.innerHTML = '';
             const img = document.createElement('img');
-            img.src = foundDish.photo;
-            img.alt = foundDish.name;
+            img.src = targetDish.photo;
+            img.alt = targetDish.name;
             glass.appendChild(img);
             placeholder.style.display = 'none';
 
             // Анимация успеха
             glass.style.animation = 'pulse 0.5s ease';
+            
+            // Показываем кнопку для нового задания
+            document.getElementById('new-task-btn').style.display = 'inline-block';
         } else {
             result.textContent = '❌ Неправильный рецепт. Попробуйте ещё раз!';
             result.className = 'error';
@@ -116,9 +128,12 @@
         placeholder.style.display = 'block';
         glass.style.animation = '';
     });
+
+    document.getElementById('new-task-btn').addEventListener('click', () => {
+        location.reload(); // Просто перезагружаем страницу для нового задания
+    });
 </script>
 {% endblock scripts %}
-
 
 {% block content %}
 <div class="container">
@@ -131,6 +146,8 @@
     </div>
     <div class="container-teagame">
         <h1>Собери Напиток</h1>
+        
+        <div id="target-display" class="target-display"></div>
 
         <div class="game-container">
             <div class="ingredients-section">
@@ -157,6 +174,7 @@
         <div id="buttons">
             <button id="check-btn" class="btn">Проверить рецепт</button>
             <button id="clear-btn" class="btn">Очистить стакан</button>
+            <button id="new-task-btn" class="btn" style="display:none;">Новый напиток</button>
         </div>
 
         <div id="result"></div>
