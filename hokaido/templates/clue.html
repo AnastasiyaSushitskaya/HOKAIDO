@@ -14,15 +14,26 @@
     </div>
 
     {% if checklists %}
-        {% for checklist in checklists %}
-            <div class="checklist-item">
-                <h1>{{ checklist.position.title }}</h1>
-                <p>{{ checklist.description|linebreaksbr }}</p>
-            </div>
-        {% endfor %}
+    {% for checklist in checklists %}
+    <div class="checklist-item">
+        <h1>{{ checklist.position.title }}</h1>
+        <p>{{ checklist.description|linebreaksbr }}</p>
+    </div>
+    {% endfor %}
     {% else %}
-        <p>Чек-лист для вашей должности не найден.</p>
+    <p>Чек-лист для вашей должности не найден.</p>
     {% endif %}
+
+    <div class="checklist-item">
+        <h1 class="h1-docs">Перечень документов для оформления:</h1>
+        <p>1. Паспорт</p>
+        <p>2. Трудовая книжка</p>
+        <p>3. Карта социального страхования</p>
+        <p>4. Аттестат</p>
+        <p>5. Документ о получении дополнительного образования</p>
+        <p>6. Военный билет</p>
+        <p>7. Страховой полис</p>
+    </div>
 </div>
 
 {% endblock content %}

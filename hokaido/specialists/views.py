@@ -421,3 +421,32 @@ def gunkan_game(request):
     }
 
     return render(request, 'gunkan_game.html', context)
+
+
+def test_results_view(request):
+    test_types = TestResult.objects.values_list('test_type', flat=True).distinct().order_by('test_type')
+
+    users = Account.objects.filter(testresult__isnull=False).distinct().order_by('username')
+
+    results = TestResult.objects.select_related('user', 'dish_type').all()
+
+    user_filter = request.GET.get('user')
+    test_type_filter = request.GET.get('test_type')
+
+    if user_filter:
+        results = results.filter(user_id=user_filter)
+
+    if test_type_filter:
+        results = results.filter(test_type=test_type_filter)
+
+    results = results.order_by('-date_completed').distinct()
+
+    context = {
+        'test_results': results,
+        'test_types': test_types,
+        'users': users,
+        'selected_user': user_filter,
+        'selected_test_type': test_type_filter,
+    }
+
+    return render(request, 'test_results.html', context)

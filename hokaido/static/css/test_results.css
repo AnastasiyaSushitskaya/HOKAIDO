@@ -1,0 +1,200 @@
+/* Основные стили */
+.test-results-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+.page-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 32px;
+    color: #1240AB;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.page-header .subtitle {
+    font-size: 16px;
+    color: #666;
+}
+
+.filters-card,
+.results-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 24px;
+    color: #1240AB;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #FFAA00, #1240AB);
+    border-radius: 3px;
+}
+
+.filter-form {
+    margin-top: 20px;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 250px;
+}
+
+.filter-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #1240AB;
+}
+
+.filter-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.filter-select:focus {
+    border-color: #1240AB;
+    outline: none;
+}
+
+.filter-button {
+    background-color: #1240AB;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 5px;
+}
+
+.filter-button:hover {
+    background-color: #0d2e7a;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.results-table th {
+    background-color: #1240AB;
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+}
+
+.results-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.results-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.user-col { width: 15%; }
+.type-col { width: 15%; }
+.dish-col { width: 15%; }
+.result-col { width: 15%; }
+.progress-col { width: 20%; }
+.date-col { width: 20%; }
+
+.progress-container {
+    position: relative;
+    height: 30px;
+    background-color: #f5f5f5;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 15px;
+    transition: width 0.5s ease;
+}
+
+.percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 500;
+    color: rgb(49, 49, 49);
+    text-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+
+.no-results {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .filter-row {
+        flex-direction: column;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .results-table th,
+    .results-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    .user-col,
+    .type-col,
+    .dish-col,
+    .result-col,
+    .progress-col,
+    .date-col {
+        width: auto;
+    }
+}
